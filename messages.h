@@ -12,3 +12,7 @@ void error (void) {
   printf("There is an issue with your input. Please try again. If you need help, please enter in 'h'\n");
   printf("Please enter your input now:\t"); 
 }
+
+void exitContinue (void) {
+ printf("If you wish to continue, please enter in any of the given character options.\nOtherwise, enter 'e' to exit the program.\t");
+} 

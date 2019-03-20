@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "databaseParse.h"
+#include "structs.h"
 
 int parsedatabase (void) { 
-  char primaryTitle[250];
-  char releaseYear[5];
-  char runtimeMinutes[5];
-  char genres[100];
   char line[225];
   char *token;
   int i = 0; 
+  struct Movie newMovie; 
+
+  printf("Please wait a moment movie_records.txt is being parsed.\n"); 
   
   FILE * movie;
   movie = fopen("movie_records.txt", "r");
@@ -18,26 +18,25 @@ int parsedatabase (void) {
   while (fgets(line, sizeof(line), movie) != NULL) {
     token = strtok(line, "\t");    //Get first token
     while( token != NULL ) {       // walk through other tokens
-      //printf( " %s\n", token);
       switch (i) {
         case 2:
-	  strcpy(primaryTitle, token);
-	  printf( " %s\n", primaryTitle);
+	  strcpy(newMovie.Title, token);
+	  //printf( " %s\n", newMovie.Title);
 	  break;
 
         case 5:
-	  strcpy(releaseYear, token);
-	  printf( " %s\n", releaseYear);
+	  strcpy(newMovie.releaseYear, token);
+	  //printf( " %s\n", newMovie.releaseYear);
 	  break;
 
         case 7:
-	  strcpy(runtimeMinutes, token);
-	  printf( " %s\n", runtimeMinutes);
+          strcpy(newMovie.runtimeMinutes, token);
+	  //printf( " %s\n", newMovie.runtimeMinutes);
 	  break; 
 
         case 8:
-	  strcpy(genres, token);
-          printf( " %s\n", genres);
+	  strcpy(newMovie.genres, token);
+          //printf( " %s\n", newMovie.genres);
 	  break; 
 
         default:
@@ -51,6 +50,8 @@ int parsedatabase (void) {
 }
 fclose(movie);
 
+ printf("The database has been fully parsed. Thank you for you patience.\n"); 
+ 
 return 0;
 }
 

@@ -9,6 +9,7 @@
 #include "messages.h"
 
 int main (void) {
+  parsedatabase(); 
 
   //Welcome message; obtain userID
   printf("Welcome to your movie library.\nTo begin, please enter in your userID in the format of 'firstname_lastname' to avoid duplicate logs.\n");
@@ -67,13 +68,14 @@ int main (void) {
     case 'e':
       return 0; 
     
-    default:
-      help();  
+    default:  
+      printf("INVALID INPUT\n"); 
       break; 
     }
 
     //Scan for new input
-    printf("If you wish to continue please enter in any of the given character options. Otherwise, please enter 'e' to exit the program.\t");
+    //    printf("If you wish to continue please enter in any of the given character options. Otherwise, please enter 'e' to exit the program.\t");
+    exitContinue();
     scanf("%s", userChoice);
       while (userChoice[1] != '\0') {
         error();
