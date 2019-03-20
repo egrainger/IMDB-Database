@@ -2,38 +2,52 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main (void) {
-
-  char tconst[20];
-  char titleType[50];
-  char primaryTitle[50];
-  char originalTitle[50];
-  char isAdult[4];
-  char startYear[5];
-  char endYear[5];
-  char runtimeMinutes[4];
-  char genres[50];
-
+int main (void) { 
+  char primaryTitle[250];
+  char releaseYear[5];
+  char runtimeMinutes[5];
+  char genres[100];
   char line[225];
-
-  char *token; 
+  char *token;
+  int i = 0; 
   
   FILE * movie;
-  movie = fopen("sample.txt", "r");
+  movie = fopen("movie_records.txt", "r");
 
   while (fgets(line, sizeof(line), movie) != NULL) {
-    printf("%s", line); 
-    
-    /* get the first token */
-    token = strtok(line, "\t");
-   
-   /* walk through other tokens */
-   while( token != NULL ) {
-      printf( " %s\n", token);
+    token = strtok(line, "\t");    //Get first token
+    while( token != NULL ) {       // walk through other tokens
+      //printf( " %s\n", token);
+      switch (i) {
+        case 2:
+	  strcpy(primaryTitle, token);
+	  printf( " %s\n", primaryTitle);
+	  break;
+
+        case 5:
+	  strcpy(releaseYear, token);
+	  printf( " %s\n", releaseYear);
+	  break;
+
+        case 7:
+	  strcpy(runtimeMinutes, token);
+	  printf( " %s\n", runtimeMinutes);
+	  break; 
+
+        case 8:
+	  strcpy(genres, token);
+          printf( " %s\n", genres);
+	  break; 
+
+        default:
+	  break;
+      }
+      i++; 
       token = strtok(NULL, "\t");
       
    }
-  }
+    i = 0; 
+}
 fclose(movie);
 
 return 0;
