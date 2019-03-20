@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "databaseParse.h"
 
-int main (void) { 
+int parsedatabase (void) { 
   char primaryTitle[250];
   char releaseYear[5];
   char runtimeMinutes[5];
