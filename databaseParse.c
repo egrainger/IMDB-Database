@@ -1,8 +1,18 @@
+/*removeSubstr is courtesy of a nice purpose on https://cboard.cprogramming.com/c-programming/143155-simple-removal-string-string-via-strtok.html*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "databaseParse.h"
 #include "structs.h"
+
+void removeSubstr (char *string, char *sub) {
+	char *match;
+	int len = strlen(sub);
+	while ((match = strstr(string, sub))) {
+		*match = '\0';
+		strcat(string, match+len);
+	}
+}
 
 int parsedatabase (void) { 
   char line[225];
@@ -23,23 +33,25 @@ int parsedatabase (void) {
     while( token != NULL ) {       // walk through other tokens
       switch (i) {
         case 2:
-	  strcpy(newMovie.Title, token);
-	  //printf( " %s\n", newMovie.Title);
+	  strcpy(newMovie.Title, token);  //Maintain copy of original title for user's records
+ 	  strlwr(token);                 //Avoids weird user input with incorrect capitalization
+          removeSubstr(token, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
+          removeSubstr(token, "a ");
+          removeSubstr(token, "an ");
+	  strcpy(newMovie.avlTitle, token);
+	  printf(" %s\n", newMovie.avlTitle); //Have a copy of title to more easily search: all lower case and no articles. 
 	  break;
 
         case 5:
 	  strcpy(newMovie.releaseYear, token);
-	  //printf( " %s\n", newMovie.releaseYear);
 	  break;
 
         case 7:
           strcpy(newMovie.runtimeMinutes, token);
-	  //printf( " %s\n", newMovie.runtimeMinutes);
 	  break; 
 
         case 8:
 	  strcpy(newMovie.genres, token);
-          //printf( " %s\n", newMovie.genres);
 	  break; 
 
         default:
