@@ -13,8 +13,11 @@ int parsedatabase (void) {
   printf("Please wait a moment movie_records.txt is being parsed.\n"); 
   
   FILE * movie;
-  movie = fopen("movie_records.txt", "r");
-
+  if(!(movie = fopen("movie_records.txt", "r"))) {
+    printf("movie_records.txt is missing from your directory.\nPlease follow the instructions in the README to create this file then rerun this script.\n");
+    return 2;
+  }
+  
   while (fgets(line, sizeof(line), movie) != NULL) {
     token = strtok(line, "\t");    //Get first token
     while( token != NULL ) {       // walk through other tokens

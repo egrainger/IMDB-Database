@@ -9,8 +9,13 @@
 #include "messages.h"
 
 int main (void) {
-  parsedatabase(); 
 
+  int missingRecord = 0; 
+  missingRecord = parsedatabase(); 
+  if (missingRecord == 2) {
+    return 0;
+  }
+  
   //Welcome message; obtain userID
   printf("Welcome to your movie library.\nTo begin, please enter in your userID in the format of 'firstname_lastname' to avoid duplicate logs.\n");
   char userID[50];
