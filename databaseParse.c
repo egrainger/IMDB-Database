@@ -17,19 +17,16 @@ void removeSubstr (char *string, char *sub) { //string is my title and sub is th
 }
 
 /*This function's purpose is to parse the database and add each movie to an AVL tree for storage and lookup*/
-int parsedatabase (void) { 
+node* parsedatabase (node *tree) { 
   char line[225];
   char *token; //This stores each string delimited by a tab
   int i = 0; //Used to track which column of the file data the parsing is on. 
   struct Movie newMovie; //This will be sent to the AVL tree to be stored
 
-  printf("Please wait a moment movie_records.txt is being parsed.\n"); //Let the user know to be patient
+  printf("\nPlease wait a moment movie_records.txt is being parsed.\n"); //Let the user know to be patient
   
   FILE * movie;
-  if(!(movie = fopen("movie_records.txt", "r"))) {   //This opens movie_records.txt and checks to make sure it exists. Otherwise it returns '2' to main.c indicating the file is missing and to exit.
-    printf("movie_records.txt is missing from your directory.\nPlease follow the instructions in the README to create this file then rerun this script.\n");
-    return 2;
-  }
+  movie = fopen("movie_records.txt", "r");
 
   while (fgets(line, sizeof(line), movie) != NULL) { //Read in the file line by line for each movie object
     token = strtok(line, "\t");    //Get first token
@@ -42,7 +39,6 @@ int parsedatabase (void) {
           removeSubstr(token, "a ");
           removeSubstr(token, "an ");
 	  strcpy(newMovie.avlTitle, token); //Store the modified title which is all lowercase with no articles
-	  //printf(" %s\n", newMovie.avlTitle); //Have a copy of title to more easily search: all lower case and no articles. 
 	  break;
 
         case 5:
@@ -65,12 +61,15 @@ int parsedatabase (void) {
       
    }
     i = 0; //reset i value for next movie
-}
+    tree = insert(newMovie, tree); //insert the new movie into the database's AVL tree
+  }
+  //display_avl(tree);
+  if (tree == NULL)
+    printf("Tree is NULL\n");
   fclose(movie); //close movie_records.txt once finished
-
- printf("The database has been fully parsed. Thank you for you patience.\n"); 
- 
-return 0;
+  
+  printf("The database has been fully parsed. Thank you for you patience.\n\n");
+  return tree;
 }
 
 

@@ -17,14 +17,15 @@ void dispose(node* t) {
     }
 }
 
-/*find a specific node's key in the tree*/
-//FIXME
-node* find(char *str, node* t ) {
+/*find a specific node's title in the tree*/
+struct Movie find(char *str, node* t ) {
   int len;
   len = strlen(str); 
+
+  struct Movie movie = {0}; 
   
   if( t == NULL )
-    return NULL;
+    return movie;
   
   if(strncmp(str, t->info.avlTitle, len) < 0)
     return find(str, t->left);
@@ -33,7 +34,7 @@ node* find(char *str, node* t ) {
     return find(str, t->right);
 
   else
-    return t;
+    return t->info;
 }
 
 /*find minimum node's key*/
@@ -128,7 +129,6 @@ static node* double_rotate_with_right( node* k1 ) {
 
 
 /*insert a new node into the tree*/
-//FIXME
 node* insert(struct Movie newMovie, node* t ) {
   if( t == NULL )
     {
@@ -174,6 +174,7 @@ node* insert(struct Movie newMovie, node* t ) {
   /* Else X is in the tree already; we'll do nothing */
   
     t->height = max( height( t->left ), height( t->right ) ) + 1;
+    //printf("%s\n", t->info.Title);
     return t;
 }
 
@@ -193,16 +194,18 @@ char* get(node* n) {
 /*Recursively display AVL tree or subtree*/
 //FIXME
 void display_avl(node* t) {
+  //printf("DISPLAY!\n"); 
   if (t == NULL)
         return;
-  printf(" %s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear,t->info.runtimeMinutes,t->info.genres);
+  //printf("got past empty"); 
+  printf(" %s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
   
-  if(t->left != NULL)
+  /*if(t->left != NULL)
     printf("(L:\t%s\t%s\t%s\t%s\t",t->info.Title, t->info.releaseYear,t->info.runtimeMinutes,t->info.genres);
   if(t->right != NULL)
         printf("(R:\t%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear,t->info.runtimeMinutes,t->info.genres);
   printf("\n");
-  
+  */
   display_avl(t->left);
   display_avl(t->right);
 }

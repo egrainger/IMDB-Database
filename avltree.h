@@ -3,6 +3,7 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
+#include "structs.h"
 
 #ifndef AVLTREE_H_
 #define AVLTREE_H_
@@ -15,7 +16,7 @@ typedef struct node {
 } node;
  
 void dispose(node* t);
-node* find(char *str, node *t );
+struct Movie find(char *str, node *t );
 node* find_min( node *t );
 node* find_max( node *t );
 node* insert( struct Movie newMovie, node *t );

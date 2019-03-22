@@ -6,17 +6,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include "databaseParse.h"
-//#include "structs.h"
+#include "structs.h"
 #include "messages.h"
 #include "avltree.h"
 
 int main (void) {
+  //Initialize avl tree for database
+  node *HEAD_DB = NULL; 
+  HEAD_DB = parsedatabase(HEAD_DB); 
 
-  int missingRecord = 0; 
-  missingRecord = parsedatabase(); 
-  if (missingRecord == 2) {
-    return 0;
-  }
+  if (HEAD_DB == NULL)
+    printf("HEAD_DB is NULL!\n");
+  
+  display_avl(HEAD_DB);
+  
+  //Initialize avl tree for user
+  node *HEAD_USER = NULL; 
   
   //Welcome message; obtain userID
   printf("Welcome to your movie library.\nTo begin, please enter in your userID in the format of 'firstname_lastname' to avoid duplicate logs.\n");
@@ -26,7 +31,9 @@ int main (void) {
 
   //Open file for user library
   FILE *fptr;
-  fptr = fopen(userID, "w+"); 
+  char userFile[55];
+  strcpy(userFile, strcat(userID, ".txt"));
+  fptr = fopen(userFile, "w+"); 
 
 
   //Display user function choices.
@@ -46,13 +53,22 @@ int main (void) {
   char userChoiceProper;
   userChoiceProper = userChoice[0]; 
   
-  //printf("You chose: %c\n", userChoiceProper);
-
   while (userChoiceProper != 'e'){
     switch (userChoiceProper) {
 
     case 'a':
       printf("ADD\n");
+      //Get proper user search title
+      char search[250]; 
+      printf("Please type the title of the movie you wish to add to your library. Omit an initial article such as 'The,' 'A,' or 'An':\t");
+      scanf("%s", search);       //Scan in movie title
+      removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
+      removeSubstr(search, "a ");
+      removeSubstr(search, "an ");
+
+      //Search the database avl tree
+      printf("searching for: %s\n", search); 
+      find(search, HEAD_DB);
       break;
     
     case 'u':
