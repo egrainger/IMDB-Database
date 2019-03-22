@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
+#ifndef STRUCTS_H_   // Include guard 
+#define STRUCTS_H_
+  
 /*Use as a way to track the movie information and keep it all together*/ 
 /*runtimeMinutes and releaseYear are not integers to allow for a single strtok() call which only deals with strings*/
 struct Movie {
@@ -12,5 +12,5 @@ struct Movie {
   char avlTitle[250]; 
 };
 
-
+#endif // STRUCTS_H_
 

@@ -1,12 +1,14 @@
 /*Project: Movie Database 
   Creator: Emma Grainger
-  Overview: Create and maintain a personal user library of movie titles from a compiled database. */
+  Overview: Create and maintain a personal user library of movie titles from a compiled database. 
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "databaseParse.h"
-#include "structs.h"
+//#include "structs.h"
 #include "messages.h"
+#include "avltree.h"
 
 int main (void) {
 
