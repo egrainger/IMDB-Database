@@ -28,7 +28,7 @@ node* parsedatabase (node *tree) {
   FILE * movie;
   movie = fopen("movie_records.txt", "r");
 
-  while (fgets(line, sizeof(line), movie) != NULL) { //Read in the file line by line for each movie object
+ while (fgets(line, sizeof(line), movie) != NULL) { //Read in the file line by line for each movie object
     token = strtok(line, "\t");    //Get first token
     while( token != NULL ) {       // walk through other tokens
       switch (i) {
