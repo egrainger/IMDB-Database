@@ -16,7 +16,8 @@ typedef struct node {
 } node;
  
 void dispose(node* t);
-struct Movie find(char *str, node *t );
+//struct Movie find(char *str, node *t );
+node* find(char *str, node *t); 
 node* find_min( node *t );
 node* find_max( node *t );
 node* insert( struct Movie newMovie, node *t );

@@ -18,14 +18,16 @@ void dispose(node* t) {
 }
 
 /*find a specific node's title in the tree*/
-struct Movie find(char *str, node* t ) {
+//struct Movie find(char *str, node* t ) {
+node *find(char *str, node*t){ 
   int len;
   len = strlen(str); 
 
-  struct Movie movie = {0}; 
+  //struct Movie movie = {0}; 
+  node* n = {0}; 
   
   if( t == NULL )
-    return movie;
+    return n;
   
   if(strncmp(str, t->info.avlTitle, len) < 0)
     return find(str, t->left);
@@ -34,8 +36,9 @@ struct Movie find(char *str, node* t ) {
     return find(str, t->right);
 
   else
-    return t->info;
-}
+    //return t->info;
+    return n; 
+    }
 
 /*find minimum node's key*/
 node* find_min( node* t ) {

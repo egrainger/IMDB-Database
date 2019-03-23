@@ -10,6 +10,9 @@ struct Movie {
   char runtimeMinutes[5];
   char genres[100];
   char avlTitle[250]; 
+  char format[8];
+  char date[11];
+  
 };
 
 #endif // STRUCTS_H_

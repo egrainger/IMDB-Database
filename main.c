@@ -15,10 +15,9 @@ int main (void) {
   node *HEAD_DB = NULL; 
   HEAD_DB = parsedatabase(HEAD_DB); 
 
+  //Double check to make sure database tree isn't empty
   if (HEAD_DB == NULL)
     printf("HEAD_DB is NULL!\n");
-  
-  display_avl(HEAD_DB);
   
   //Initialize avl tree for user
   node *HEAD_USER = NULL; 
@@ -58,17 +57,51 @@ int main (void) {
 
     case 'a':
       printf("ADD\n");
+      char typeOwned[8];
+      char purchased[11];
+
       //Get proper user search title
-      char search[250]; 
-      printf("Please type the title of the movie you wish to add to your library. Omit an initial article such as 'The,' 'A,' or 'An':\t");
-      scanf("%s", search);       //Scan in movie title
+      /*char search[250]; 
+      printf("Please type the title of the movie you wish to add to your library. Omit an initial article such as 'The,' 'A,' or 'An':\t"); 
+      scanf("%[^\n]s", search);       //Scan in movie title
+      printf("%s\n", search); 
       removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
+      printf("%s\n", search);
       removeSubstr(search, "a ");
+      printf("%s\n", search);
       removeSubstr(search, "an ");
+      printf("%s\n", search);
 
       //Search the database avl tree
       printf("searching for: %s\n", search); 
-      find(search, HEAD_DB);
+      display_avl(find(search, HEAD_DB));
+      */
+      printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
+      scanf("%s", purchased);
+      printf("Purchased: %s", purchased);
+      
+      printf("\nWhat format do you own? To answer please type 'b' for bluray, 'v' for dvd, or 'd' for digital:\t");
+      //Read user choice from stdin
+      scanf("%s", typeOwned);
+      
+      //Make sure that input is an actual choice
+      while (typeOwned[1] != '\0') {    //The input is not a single character
+	error();
+	scanf("%s", typeOwned);       //Scan in new input
+      }
+      if (typeOwned[0] == 'b'){
+	strcpy(typeOwned, "Bluray");
+	//printf("%s\n", typeOwned);
+      }
+      else if (typeOwned[0] == 'v'){
+	strcpy(typeOwned, "DVD");
+        //printf("%s\n", typeOwned);
+      }
+      else {
+	strcpy(typeOwned, "Digital");
+        //printf("%s\n", typeOwned);
+      }
+      printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n"
       break;
     
     case 'u':

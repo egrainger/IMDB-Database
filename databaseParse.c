@@ -63,7 +63,6 @@ node* parsedatabase (node *tree) {
     i = 0; //reset i value for next movie
     tree = insert(newMovie, tree); //insert the new movie into the database's AVL tree
   }
-  //display_avl(tree);
   if (tree == NULL)
     printf("Tree is NULL\n");
   fclose(movie); //close movie_records.txt once finished
