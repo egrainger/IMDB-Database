@@ -21,13 +21,10 @@ void dispose(node* t) {
 //struct Movie find(char *str, node* t ) {
 node *find(char *str, node*t){ 
   int len;
-  len = strlen(str); 
-
-  //struct Movie movie = {0}; 
-  node* n = {0}; 
-  
-  if( t == NULL )
-    return n;
+  len = strlen(str); //Useful for strncmp() which will be useful for full or partial matches 
+    
+  if(t == NULL)
+    return NULL;
   
   if(strncmp(str, t->info.avlTitle, len) < 0)
     return find(str, t->left);
@@ -36,9 +33,8 @@ node *find(char *str, node*t){
     return find(str, t->right);
 
   else
-    //return t->info;
-    return n; 
-    }
+    return t; 
+}
 
 /*find minimum node's key*/
 node* find_min( node* t ) {
@@ -195,20 +191,29 @@ char* get(node* n) {
 }
 
 /*Recursively display AVL tree or subtree*/
-//FIXME
 void display_avl(node* t) {
   //printf("DISPLAY!\n"); 
   if (t == NULL)
         return;
-  //printf("got past empty"); 
+   
   printf(" %s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
   
-  /*if(t->left != NULL)
-    printf("(L:\t%s\t%s\t%s\t%s\t",t->info.Title, t->info.releaseYear,t->info.runtimeMinutes,t->info.genres);
-  if(t->right != NULL)
-        printf("(R:\t%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear,t->info.runtimeMinutes,t->info.genres);
-  printf("\n");
-  */
   display_avl(t->left);
   display_avl(t->right);
 }
+
+void display_matches(node* t, char *userInput) {
+  //printf("DISPLAY!\n");
+  char *match;
+   
+  if (t == NULL)
+        return;
+  
+  match = strstr(t->info.avlTitle, userInput);  
+    if (match) 
+    printf(" %s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
+  
+    display_matches(t->left, userInput);
+    display_matches(t->right, userInput);
+}
+

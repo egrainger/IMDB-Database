@@ -75,15 +75,18 @@ int main (void) {
       //printf("%s\n", search);
       removeSubstr(search, "an ");
       //printf("%s\n", search);
-	
+      strlwr(search); 
+      
       //Search the database avl tree
       printf("searching for: %s\n", search); 
-      display_avl(find(search, HEAD_DB));
-      
+      display_matches(find(search, HEAD_DB), search);
+
+      //Have user enter when they bought the movie
       printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
       scanf("%s", purchased);
       printf("Purchased: %s", purchased);
-      
+
+      //Have user enter what type of format their version of the movie is in 
       printf("\nWhat format do you own? To answer please type 'b' for bluray, 'v' for dvd, or 'd' for digital:\t");
       //Read user choice from stdin
       scanf("%s", typeOwned);

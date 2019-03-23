@@ -24,5 +24,6 @@ node* insert( struct Movie newMovie, node *t );
 node* delete( char *str, node *t );
 void display_avl(node* t);
 char* get( node* n );
+void display_matches(node* t, char *userInput);
 
 #endif // AVLTREE_H_
