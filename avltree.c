@@ -202,18 +202,30 @@ void display_avl(node* t) {
   display_avl(t->right);
 }
 
-void display_matches(node* t, char *userInput) {
-  //printf("DISPLAY!\n");
-  char *match;
-   
+void display_matches(node* t, char *userInput) { 
+  static int counter = 1;
+  if (counter > 30) {
+    return;
+  }
+  
+  int len;
+  len = strlen(userInput);
+  
   if (t == NULL)
-        return;
+    return;
+
+  if (len == strlen(t->info.avlTitle) && strcmp(userInput, t->info.avlTitle) == 0) {
+    printf("Exact match!\n"); 
+  }
+
+  if(strstr(t->info.avlTitle, userInput)) {
+    printf("%d\t", counter);
+    counter++;
+    printf("%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
+  }
   
-  match = strstr(t->info.avlTitle, userInput);  
-    if (match) 
-    printf(" %s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
-  
-    display_matches(t->left, userInput);
-    display_matches(t->right, userInput);
+  display_matches(t->left, userInput);
+  display_matches(t->right, userInput);
 }
 
+    

@@ -213,12 +213,6 @@ int main (void) {
      break;
 	     
 
-
-
-
-
-     
-
      /*This case prints a help message*/
      case 'h':
        printf("HELP\n");
