@@ -192,7 +192,7 @@ char* get(node* n) {
 
 /*Recursively display AVL tree or subtree*/
 void display_avl(node* t) {
-  //printf("DISPLAY!\n"); 
+ 
   if (t == NULL)
         return;
    
@@ -202,9 +202,9 @@ void display_avl(node* t) {
   display_avl(t->right);
 }
 
-void display_matches(node* t, char *userInput) { 
+void display_matches(node* t, char *userInput, struct Movie *matches) { 
   static int counter = 1;
-  if (counter > 30) {
+  if (counter > 30) { 
     return;
   }
   
@@ -215,17 +215,22 @@ void display_matches(node* t, char *userInput) {
     return;
 
   if (len == strlen(t->info.avlTitle) && strcmp(userInput, t->info.avlTitle) == 0) {
-    printf("Exact match!\n"); 
+    printf("Exact match!\n");
   }
 
   if(strstr(t->info.avlTitle, userInput)) {
     printf("%d\t", counter);
     counter++;
+    strcpy(matches[counter-1].Title, t->info.Title);
+    strcpy(matches[counter-1].releaseYear,t->info.releaseYear);
+    strcpy(matches[counter-1].runtimeMinutes,t->info.runtimeMinutes);
+    strcpy(matches[counter-1].genres,t->info.genres);
+    strcpy(matches[counter-1].avlTitle,t->info.avlTitle);
     printf("%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
   }
-  
-  display_matches(t->left, userInput);
-  display_matches(t->right, userInput);
+    
+  display_matches(t->left, userInput, matches);
+  display_matches(t->right, userInput, matches); 
 }
 
     

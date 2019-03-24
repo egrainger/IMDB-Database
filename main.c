@@ -23,6 +23,9 @@ int main (void) {
   //Initialize avl tree for user
   node *HEAD_USER = NULL; 
   
+  //Want an array to hold matches found by the display_matches function
+  struct Movie match[30];
+  
   //Welcome message; obtain userID
   printf("Welcome to your movie library.\nTo begin, please enter in your userID in the format of 'firstname_lastname' to avoid duplicate logs.\n");
   char userID[50];
@@ -62,24 +65,53 @@ int main (void) {
       /*This case deals with adding a new entry to the user's file*/
     case 'a':
       printf("ADD\n");
-
+      struct Movie userMov; 
       char search[250];
       //Get proper user search title 
       printf("Please type the title of the movie you wish to add to your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
       getchar();  //Flush the \n out of the buffer 
       scanf("%[^\n]s",search);//Scan in movie title
       printf("FOUND: %s\n", search); 
+      strlwr(search);
       removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
-      //printf("%s\n", search);
       removeSubstr(search, "a ");
-      //printf("%s\n", search);
-      removeSubstr(search, "an ");
-      //printf("%s\n", search);
-      strlwr(search); 
+      removeSubstr(search, "an "); 
       
       //Search the database avl tree
       printf("searching for: %s\n", search); 
-      display_matches(find(search, HEAD_DB), search);
+
+      //Find top 30 best matches
+      display_matches(find(search, HEAD_DB), search, match);
+
+      //Print the array with the top thirty matches 
+      printf("Match is filled with this: \n");
+      for (int x = 1; x <= 30; x++){
+	printf("%d\t%s\n", x, match[x].Title);  
+      }
+
+      //Have the user pick which movie they wish to add to their log
+      printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match your desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
+ 
+      //Read user choice from stdin
+      int pickOne;
+      scanf("%d", &pickOne);
+      printf("Pick: %d\n", pickOne); 
+      
+      //Leave case a if instructions were not followed
+      if (pickOne == 0 || pickOne > 30 ){
+	printf("None of the options were correct.\n"); 
+	break;
+      }
+
+      //Input is valid
+      else {
+	strcpy(userMov.Title, match[pickOne].Title); 
+	strcpy(userMov.releaseYear, match[pickOne].releaseYear);
+	strcpy(userMov.runtimeMinutes, match[pickOne].runtimeMinutes);
+	strcpy(userMov.genres, match[pickOne].genres);
+	strcpy(userMov.avlTitle, match[pickOne].avlTitle);
+	printf("User: %s\t%s\t%s\t%s\n",userMov.Title, userMov.releaseYear, userMov.runtimeMinutes, userMov.genres);
+      }
 
       //Have user enter when they bought the movie
       printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
