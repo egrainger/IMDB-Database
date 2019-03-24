@@ -67,18 +67,20 @@ int main (void) {
       printf("ADD\n");
       struct Movie userMov; 
       char search[250];
+
       //Get proper user search title 
       printf("Please type the title of the movie you wish to add to your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
       getchar();  //Flush the \n out of the buffer 
       scanf("%[^\n]s",search);//Scan in movie title
-      printf("FOUND: %s\n", search); 
-      strlwr(search);
+
+      //Clean up user input
+      strlwr(search);                   //All lowercase
       removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
       removeSubstr(search, "a ");
       removeSubstr(search, "an "); 
       
       //Search the database avl tree
-      printf("searching for: %s\n", search); 
+      printf("Searching for: %s\n", search); 
 
       //Find top 30 best matches
       display_matches(find(search, HEAD_DB), search, match);
@@ -103,7 +105,7 @@ int main (void) {
 	break;
       }
 
-      //Input is valid
+      //Input is valid so add basic movie info to struct
       else {
 	strcpy(userMov.Title, match[pickOne].Title); 
 	strcpy(userMov.releaseYear, match[pickOne].releaseYear);
@@ -117,7 +119,8 @@ int main (void) {
       printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
       scanf("%s", purchased);
       printf("Purchased: %s", purchased);
-
+      strcpy(userMov.date, purchased);
+      
       //Have user enter what type of format their version of the movie is in 
       printf("\nWhat format do you own? To answer please type 'b' for bluray, 'v' for dvd, or 'd' for digital:\t");
       //Read user choice from stdin
@@ -128,6 +131,7 @@ int main (void) {
 	error();
 	scanf("%s", typeOwned);       //Scan in new input
       }
+
       if (typeOwned[0] == 'b'){
 	strcpy(typeOwned, "Bluray");
 	//printf("%s\n", typeOwned);
@@ -141,7 +145,12 @@ int main (void) {
         //printf("%s\n", typeOwned);
       }
       printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n");
-       
+      strcpy(userMov.format, typeOwned);
+
+      HEAD_USER = insert(userMov, HEAD_USER); 
+      
+      //display_user(HEAD_USER); 
+      
       break;
        
 	
@@ -236,7 +245,7 @@ int main (void) {
       /*This case allows the reader to view their current file*/
       case 'r':
         printf("READ\n");
-	display_avl(HEAD_USER); 
+	display_user(HEAD_USER); 
       break;
 	     
      /*This case allows the user to delete a movie from their file*/

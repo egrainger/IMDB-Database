@@ -23,6 +23,7 @@ node* find_max( node *t );
 node* insert( struct Movie newMovie, node *t );
 node* delete( char *str, node *t );
 void display_avl(node* t);
+void display_user(node* t);
 char* get( node* n );
 void display_matches(node* t, char *userInput, struct Movie *matches);
 

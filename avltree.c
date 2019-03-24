@@ -147,6 +147,10 @@ node* insert(struct Movie newMovie, node* t ) {
 	  strcpy(t->info.avlTitle ,newMovie.avlTitle);	 
 	  t->height = 0;
 	  t->left = t->right = NULL;
+	  if (newMovie.format)
+	    strcpy(t->info.format, newMovie.format);
+	  if (newMovie.date)
+	    strcpy(t->info.date, newMovie.date); 
         }
     }
   else if(strcmp(newMovie.avlTitle, t->info.avlTitle) < 0 )
@@ -233,4 +237,17 @@ void display_matches(node* t, char *userInput, struct Movie *matches) {
   display_matches(t->right, userInput, matches); 
 }
 
+/*Recursively display user's AVL tree*/
+void display_user(node* t) {
+
+  if (t == NULL)
+        return;
+
+  //printf("DATE AND FORMAT: %s %s", t->info.date, t->info.format); 
+  printf("%s %s %s %s %s %s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres,t->info.date, t->info.format);
+
+  display_avl(t->left);
+  display_avl(t->right);
+}
     
+
