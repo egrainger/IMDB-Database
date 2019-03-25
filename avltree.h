@@ -27,5 +27,6 @@ void display_avl(node* t);
 void display_user(node* t);
 char* get( node* n );
 void display_matches(node* t, char *userInput, struct Movie *matches);
+void display_userChoice(node *t, char *str);
 void print_to_text(node* t, FILE *userFile); 
 #endif // AVLTREE_H_

@@ -29,7 +29,7 @@ node *find(char *str, node*t){
     
   if(t == NULL)
     return NULL;
-  
+
   if(strncmp(str, t->info.avlTitle, len) < 0)
     return find(str, t->left);
 
@@ -192,13 +192,13 @@ node* successor(char *str, node *t, node* succ) {
     succ = NULL;
     return succ; 
   }
-
+  
   //if node with key's value is found, the successor is min value node in its right subtree (if any)
   if (strcmp(str, t->info.avlTitle) == 0) {
     if (t->right)
       succ = find_min(t->right);
   }
-
+  
   //if given key is less than the root node recurse for left subtree
   else if (strcmp(str, t->info.avlTitle) < 0) {
     //update successor to current node before recursing left subtree
@@ -207,7 +207,8 @@ node* successor(char *str, node *t, node* succ) {
   }
   //if given key is more than the root node, recurse for right subtree
   else
-    successor(str, t->right, succ); 
+    successor(str, t->right, succ);
+  return succ; 
 }
 
 int balance_factor(node *t)
@@ -230,14 +231,14 @@ int balance_factor(node *t)
 }
 
 /*remove a node in the tree*/
-//FIXME
 node* delete(node* t, char *str ) {
   struct node *remove_node;
   //If empty can't delete
   if (t == NULL){
     return t;
   }
-  
+
+  printf("str to remove: %s", str); 
   //Check to find stuff
   if (strcmp(str, t->info.avlTitle) < 0) {
     t->left = delete(t->left, str);
@@ -264,7 +265,7 @@ node* delete(node* t, char *str ) {
     } else {
       node* succ = NULL; 
       remove_node = successor(str, t, succ);
-      t->info.avlTitle = remove_node->info.avlTitle;
+      strcpy(t->info.avlTitle, remove_node->info.avlTitle);
       t->right = delete(t->right, remove_node->info.avlTitle);
     }
 
@@ -316,14 +317,13 @@ void display_avl(node* t) {
 
 /*Recursively print all matches for the user's input and save them to an array*/
 void display_matches(node* t, char *userInput, struct Movie *matches) { 
-  static int counter = 1;
+  static int counter = 0;
+ 
   printf("counter value is: %d\n", counter); 
   if (counter > 30) { 
     return;
   }
-
-  int index;
-  index = (counter-1) % 30;
+  
   int len;
   len = strlen(userInput);
   
@@ -335,18 +335,17 @@ void display_matches(node* t, char *userInput, struct Movie *matches) {
   }
 
   if(strstr(t->info.avlTitle, userInput)) {
-    printf("%d\t", index);
-    counter++;
-    strcpy(matches[index].Title, t->info.Title);
-    strcpy(matches[index].releaseYear,t->info.releaseYear);
-    strcpy(matches[index].runtimeMinutes,t->info.runtimeMinutes);
-    strcpy(matches[index].genres,t->info.genres);
-    strcpy(matches[index].avlTitle,t->info.avlTitle);
+    strcpy(matches[counter].Title, t->info.Title);
+    strcpy(matches[counter].releaseYear,t->info.releaseYear);
+    strcpy(matches[counter].runtimeMinutes,t->info.runtimeMinutes);
+    strcpy(matches[counter].genres,t->info.genres);
+    strcpy(matches[counter].avlTitle,t->info.avlTitle);
     printf("%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
+    counter++; 
   }
     
   display_matches(t->left, userInput, matches);
-  display_matches(t->right, userInput, matches);  
+  display_matches(t->right, userInput, matches);   
 }
 
 /*Recursively display user's AVL tree*/
@@ -370,5 +369,17 @@ void print_to_text(node*t, FILE *userFile) {
   print_to_text(t->left, userFile);
   print_to_text(t->right, userFile);
 }
+
+/*display user's choice from retrieve*/
+void display_userChoice(node* t, char *str) {
+  if (t == NULL)
+        return;
+  int len = strlen(str); 
+  if (strcmp(str, t->info.avlTitle) == 0 && len == strlen(t->info.avlTitle)); 
+  printf("%s\t%s\t%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres,t->info.date, t->info.format);
+  display_userChoice(t->left, str);
+  display_userChoice(t->right, str);
+}
+
     
 

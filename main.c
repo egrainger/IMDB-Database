@@ -41,7 +41,7 @@ int main (void) {
   fclose(fptr); 
   
   //Display user function choices.
-  printf("This library offers six main functions: add movies, update information, delete movies, read your library, help, and exit.\nTo select one of these options please enter the character associated with your desired function:\n\n\ta\tadd a movie to your library\n\tu\tupdate the information for a movie in your library currently\n\tr\tread your library\n\td\tdelete a movie from your library.\n\th\tinitial message will remind you of your options\n\te\texit the program.\n\n\nPlease type in a single character for your choice:\t");
+  printf("This library offers six main functions: add movies, update information, delete movies, read your library, help, and exit.\nTo select one of these options please enter the character associated with your desired function:\n\n\ta\tadd a movie to your library\n\tu\tupdate the information for a movie in your library currently\n\tr\tretrieve a particular movie's info from your library\n\td\tdelete a movie from your library.\n\th\tinitial message will remind you of your options\n\te\texit the program.\n\n\nPlease type in a single character for your choice:\t");
   
   //Read user choice from stdin
   char userChoice[20];
@@ -85,12 +85,12 @@ int main (void) {
 
       //Find top 30 best matches
       display_matches(find(search, HEAD_DB), search, match);
-
-      /*//Print the array with the top thirty matches 
+      
+      //Print the array with the top thirty matches 
       printf("Match is filled with this: \n");
       for (int x = 1; x <= 30; x++){
 	printf("%d\t%s\n", x, match[x].Title);  
-	}*/
+      }
 
       //Have the user pick which movie they wish to add to their log
       printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match your desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
@@ -148,34 +148,51 @@ int main (void) {
       
       HEAD_USER = insert(userMov, HEAD_USER); 
       
-      //display_user(HEAD_USER); 
-      
       break;
        
 	
       /*This case deals with updating an entry in the user's file*/
       case 'u':
 	printf("UPDATE\n");
-
-	char choice[3];
-	char choiceProper;
+	node *found;
 	
+	//Get proper user search title 
+	printf("Please type the exact title of the movie you wish to add to your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
+	getchar();  //Flush the \n out of the buffer 
+	scanf("%[^\n]s",search);//Scan in movie title
+	
+	//Clean up user input
+	strlwr(search);                   //All lowercase
+	removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
+	removeSubstr(search, "a ");
+	removeSubstr(search, "an "); 
+	
+	//Search the database avl tree
+	printf("Searching for: %s\n", search); 
+	
+	//Find top 30 best matches 
+	found = find(search, HEAD_USER);
+	if (strcmp(found->info.avlTitle, search) != 0 || strlen(found->info.avlTitle) != strlen(search)) {
+	  printf("Please try update again and type the exact title\n."); 
+	  break; 
+    }
 	printf("To update date of purchase type 'd'. To update format owned type 'f'. To update both, type 'b'. Please enter your input: \t");
 	//Read user choice from stdin
-	scanf("%s", choice);
+	scanf("%s", userChoice);
 	
 	//Make sure that input is an actual choice
-	while (choice[1] != '\0') {    //The input is not a single character
+	while (userChoice[1] != '\0') {    //The input is not a single character
 	  error();
-	  scanf("%s", choice);       //Scan in new input
+	  scanf("%s", userChoice);       //Scan in new input
 	}
-	choiceProper = choice[0];
+	userChoiceProper = userChoice[0];
 	
-	switch (choiceProper) {
+	switch (userChoiceProper) {
 	  
 	case 'd':
 	  printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
 	  scanf("%s", purchased);
+	  strcpy(found->info.date, purchased);  
 	  break;
 	  
 	case 'f':
@@ -197,6 +214,7 @@ int main (void) {
 	  else {
 	    strcpy(typeOwned, "Digital");
 	  }
+	  strcpy(found->info.format, typeOwned); 
 	  printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n");
 	  break;
 	  
@@ -225,6 +243,8 @@ int main (void) {
 	  else {
 	    strcpy(typeOwned, "Digital");
 	  }
+	   strcpy(found->info.date, purchased);
+	   strcpy(found->info.format, typeOwned);
 	  printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n");   
 	  break;
 	  
@@ -234,15 +254,43 @@ int main (void) {
 	}
 	break;
 	
-	/*This case allows the reader to view their current file*/
+	/*This case allows the reader to view a node in their current file*/
+
     case 'r':
       printf("READ\n");
-      display_user(HEAD_USER); 
+      
+      //Get proper user search title
+      printf("Please type the exact title of the movie you wish to read from your library. Omit an initial article such as 'The,' 'A,' or 'An':\n");
+      getchar();  //Flush the \n out of the buffer
+      scanf("%[^\n]s",search);//Scan in movie title
+
+      //Clean up user input
+      strlwr(search);                   //All lowercase
+      removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
+      removeSubstr(search, "a ");
+      removeSubstr(search, "an ");
+
+      //Find the one match
+      display_userChoice(find(search,HEAD_USER), search);
+      
       break;
       
       /*This case allows the user to delete a movie from their file*/
     case 'd':
       printf("DELETE\n");
+
+      //Get proper user search title 
+      printf("Please type the title of the movie you wish to delete from your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
+      getchar();  //Flush the \n out of the buffer 
+      scanf("%[^\n]s",search);//Scan in movie title
+
+      //Clean up user input
+      strlwr(search);                   //All lowercase
+      removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
+      removeSubstr(search, "a ");
+      removeSubstr(search, "an ");
+      
+      delete(HEAD_USER, search);
       break;
       
       /*This case prints a help message*/
