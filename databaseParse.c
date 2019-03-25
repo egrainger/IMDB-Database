@@ -50,6 +50,7 @@ node* parsedatabase (node *tree) {
 	  break; 
 
         case 8:
+	  removeSubstr(token, "\n");
 	  strcpy(newMovie.genres, token);  //Store the genres 
 	  break; 
 
@@ -72,3 +73,68 @@ node* parsedatabase (node *tree) {
 }
 
 
+node *parseUserFile(node *tree, FILE *file) {
+  char line[225];
+  char *token; //This stores each string delimited by a tab
+  int i = 0; //Used to track which column of the file data the parsing is on. 
+  struct Movie newMovie; //This will be sent to the AVL tree to be stored
+
+  printf("\nPlease wait a moment your text file is being parsed.\n"); //Let the user know to be patient
+  
+  while (fgets(line, sizeof(line), file) != NULL) { //Read in the file line by line for each movie object
+    printf("LINE: %s\n", line); 
+    token = strtok(line, "\t");    //Get first token
+    while( token != NULL ) {       // walk through other tokens
+      switch (i) {
+      case 0:
+	strcpy(newMovie.Title, token);  //Maintain copy of original title for user's records
+	strlwr(token);                 //Avoids weird user input with incorrect capitalization
+	removeSubstr(token, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
+	removeSubstr(token, "a ");
+	removeSubstr(token, "an ");
+	strcpy(newMovie.avlTitle, token); //Store the modified title which is all lowercase with no articles
+	printf("%s %s", newMovie.Title, newMovie.avlTitle); 
+	break;
+	
+      case 1:
+	strcpy(newMovie.releaseYear, token); //Store the release year
+	printf("%s ", newMovie.releaseYear);
+	break;
+	
+      case 2:
+	strcpy(newMovie.runtimeMinutes, token); //Store the runtime in minutes
+	printf("%s ", newMovie.runtimeMinutes); 
+	break; 
+	
+      case 3:
+	strcpy(newMovie.genres, token);  //Store the genres
+	printf("%s ", newMovie.genres); 
+	break;
+	
+      case 4:
+	strcpy(newMovie.date, token);
+	printf("%s ", newMovie.date); 
+	break;
+	
+      case 5:
+	removeSubstr(token, "\n");
+	strcpy(newMovie.format, token);
+	printf("%s\n", newMovie.format); 
+	break;
+	
+      default: //Just in case weird stuff happens
+	break;
+      }
+      i++; //increment after each column 
+      token = strtok(NULL, "\t"); 
+      
+    }
+    i = 0; //reset i value for next movie
+    tree = insert(newMovie, tree); //insert the new movie into the database's AVL tree
+  }
+  if (tree == NULL)
+    printf("Tree is NULL\n");
+  
+  printf("Your user file has been fully parsed. Thank you for you patience.\n\n");
+  return tree;
+}

@@ -36,8 +36,9 @@ int main (void) {
   FILE *fptr;
   char userFile[55];
   strcpy(userFile, strcat(userID, ".txt"));
-  fptr = fopen(userFile, "w"); 
-  
+  if((fptr = fopen(userFile, "r")) != NULL)
+    HEAD_USER = parseUserFile(HEAD_USER, fptr);
+  fclose(fptr); 
   
   //Display user function choices.
   printf("This library offers six main functions: add movies, update information, delete movies, read your library, help, and exit.\nTo select one of these options please enter the character associated with your desired function:\n\n\ta\tadd a movie to your library\n\tu\tupdate the information for a movie in your library currently\n\tr\tread your library\n\td\tdelete a movie from your library.\n\th\tinitial message will remind you of your options\n\te\texit the program.\n\n\nPlease type in a single character for your choice:\t");
@@ -85,11 +86,11 @@ int main (void) {
       //Find top 30 best matches
       display_matches(find(search, HEAD_DB), search, match);
 
-      //Print the array with the top thirty matches 
+      /*//Print the array with the top thirty matches 
       printf("Match is filled with this: \n");
       for (int x = 1; x <= 30; x++){
 	printf("%d\t%s\n", x, match[x].Title);  
-      }
+	}*/
 
       //Have the user pick which movie they wish to add to their log
       printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match your desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
@@ -134,19 +135,17 @@ int main (void) {
 
       if (typeOwned[0] == 'b'){
 	strcpy(typeOwned, "Bluray");
-	//printf("%s\n", typeOwned);
       }
       else if (typeOwned[0] == 'v'){
 	strcpy(typeOwned, "DVD");
-        //printf("%s\n", typeOwned);
       }
       else {
 	strcpy(typeOwned, "Digital");
-        //printf("%s\n", typeOwned);
       }
+
       printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n");
       strcpy(userMov.format, typeOwned);
-
+      
       HEAD_USER = insert(userMov, HEAD_USER); 
       
       //display_user(HEAD_USER); 
@@ -156,132 +155,123 @@ int main (void) {
 	
       /*This case deals with updating an entry in the user's file*/
       case 'u':
-	     printf("UPDATE\n");
+	printf("UPDATE\n");
 
-	     char choice[3];
-	     char choiceProper;
-	     
-	     printf("To update date of purchase type 'd'. To update format owned type 'f'. To update both, type 'b'. Please enter your input: \t");
-	     //Read user choice from stdin
-	     scanf("%s", choice);
-
-	     //Make sure that input is an actual choice
-	     while (choice[1] != '\0') {    //The input is not a single character
-	       error();
-	       scanf("%s", choice);       //Scan in new input
-	     }
-	     choiceProper = choice[0];
-
-	     switch (choiceProper) {
-
-	     case 'd':
-	       printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
-	       scanf("%s", purchased);
-	       printf("Purchased: %s", purchased);
-	       break;
-	       
-	     case 'f':
-	       printf("\nWhat format do you own? To answer please type 'b' for bluray, 'v' for dvd, or 'd' for digital:\t");
-	       //Read user choice from stdin
-	       scanf("%s", typeOwned);
-	       
-	       //Make sure that input is an actual choice
-	       while (typeOwned[1] != '\0') {    //The input is not a single character
-		 error();
-		 scanf("%s", typeOwned);       //Scan in new input
-	       }
-	       if (typeOwned[0] == 'b'){
-		 strcpy(typeOwned, "Bluray");
-		 //printf("%s\n", typeOwned);
-	       }
-	       else if (typeOwned[0] == 'v'){
-		 strcpy(typeOwned, "DVD");
-		 //printf("%s\n", typeOwned);
-	       }
-	       else {
-		 strcpy(typeOwned, "Digital");
-		 //printf("%s\n", typeOwned);
-	       }
-	       printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n");
-	       break;
-		      
-	       case 'b':
-	       //New purchase date
-	        printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
-	        scanf("%s", purchased);
-	        printf("Purchased: %s", purchased);
-
-	       //New format
-	      printf("\nWhat format do you own? To answer please type 'b' for bluray, 'v' for dvd, or 'd' for digital:\t");
-	      //Read user choice from stdin
-	      scanf("%s", typeOwned);
-	      
-	      //Make sure that input is an actual choice
-	      while (typeOwned[1] != '\0') {    //The input is not a single character
-		error();
-		scanf("%s", typeOwned);       //Scan in new input
-	      }
-	      if (typeOwned[0] == 'b'){
-		strcpy(typeOwned, "Bluray");
-		//printf("%s\n", typeOwned);
-	      }
-	      else if (typeOwned[0] == 'v'){
-		strcpy(typeOwned, "DVD");
-		//printf("%s\n", typeOwned);
-	      }
-	      else {
-		strcpy(typeOwned, "Digital");
-		//printf("%s\n", typeOwned);
-	      }
-	      printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n");   
-	       break;
-
-	     default:
-	       printf("Your response is not valid. You will have to try update again.\n");      
-	       break; 
-	     }
-	     break;
-
-      /*This case allows the reader to view their current file*/
-      case 'r':
-        printf("READ\n");
-	display_user(HEAD_USER); 
-      break;
-	     
-     /*This case allows the user to delete a movie from their file*/
-     case 'd':
-       printf("DELETE\n");
-     break;
-	     
-
-     /*This case prints a help message*/
-     case 'h':
-       printf("HELP\n");
-       help();
-     break;
-
-     /*This case allows the user to exit the program*/
-     case 'e':
-       return 0; 
-	     
-     /*This case occurs when the user's input does not match any of the other cases*/
-     default:  
-       printf("INVALID INPUT\n"); 
-     break; 
-      }
+	char choice[3];
+	char choiceProper;
 	
-   //Scan for new input
-   //    printf("If you wish to continue please enter in any of the given character options. Otherwise, please enter 'e' to exit the program.\t");
-     exitContinue();
-     scanf("%s", userChoice);
-     while (userChoice[1] != '\0') {
-       error();
-       scanf("%s", userChoice);
-      }
-      userChoiceProper = userChoice[0];
+	printf("To update date of purchase type 'd'. To update format owned type 'f'. To update both, type 'b'. Please enter your input: \t");
+	//Read user choice from stdin
+	scanf("%s", choice);
+	
+	//Make sure that input is an actual choice
+	while (choice[1] != '\0') {    //The input is not a single character
+	  error();
+	  scanf("%s", choice);       //Scan in new input
+	}
+	choiceProper = choice[0];
+	
+	switch (choiceProper) {
+	  
+	case 'd':
+	  printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
+	  scanf("%s", purchased);
+	  break;
+	  
+	case 'f':
+	  printf("\nWhat format do you own? To answer please type 'b' for bluray, 'v' for dvd, or 'd' for digital:\t");
+	  //Read user choice from stdin
+	  scanf("%s", typeOwned);
+	  
+	  //Make sure that input is an actual choice
+	  while (typeOwned[1] != '\0') {    //The input is not a single character
+	    error();
+	    scanf("%s", typeOwned);       //Scan in new input
+	  }
+	  if (typeOwned[0] == 'b'){
+	    strcpy(typeOwned, "Bluray");
+	  }
+	  else if (typeOwned[0] == 'v'){
+	    strcpy(typeOwned, "DVD");
+	  }
+	  else {
+	    strcpy(typeOwned, "Digital");
+	  }
+	  printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n");
+	  break;
+	  
+	case 'b':
+	  //New purchase date
+	  printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
+	  scanf("%s", purchased);
+	  printf("Purchased: %s", purchased);
+	  
+	  //New format
+	  printf("\nWhat format do you own? To answer please type 'b' for bluray, 'v' for dvd, or 'd' for digital:\t");
+	  //Read user choice from stdin
+	  scanf("%s", typeOwned);
+	  
+	  //Make sure that input is an actual choice
+	  while (typeOwned[1] != '\0') {    //The input is not a single character
+	    error();
+	    scanf("%s", typeOwned);       //Scan in new input
+	  }
+	  if (typeOwned[0] == 'b'){
+	    strcpy(typeOwned, "Bluray");
+	  }
+	  else if (typeOwned[0] == 'v'){
+	    strcpy(typeOwned, "DVD");
+	  }
+	  else {
+	    strcpy(typeOwned, "Digital");
+	  }
+	  printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n");   
+	  break;
+	  
+	default:
+	  printf("Your response is not valid. You will have to try update again.\n");      
+	  break; 
+	}
+	break;
+	
+	/*This case allows the reader to view their current file*/
+    case 'r':
+      printf("READ\n");
+      display_user(HEAD_USER); 
+      break;
+      
+      /*This case allows the user to delete a movie from their file*/
+    case 'd':
+      printf("DELETE\n");
+      break;
+      
+      /*This case prints a help message*/
+    case 'h':
+      printf("HELP\n");
+      help();
+      break;
+      
+      /*This case occurs when the user's input does not match any of the other cases*/
+    default:  
+      printf("INVALID INPUT\n"); 
+      break; 
     }
     
-   fclose(fptr); 
-   printf("\nEXIT\n");
-   return 0;
- }
+    //Scan for new input
+    exitContinue();
+    scanf("%s", userChoice);
+    while (userChoice[1] != '\0') {
+      error();
+      scanf("%s", userChoice);
+    }
+    userChoiceProper = userChoice[0];
+  }
+
+  //Write final user tree to its text file 
+  fptr = fopen(userFile, "w");
+  print_to_text(HEAD_USER, fptr); 
+  fclose(fptr);
+  
+  printf("\nEXIT\n");
+  return 0;
+}

@@ -16,7 +16,6 @@ typedef struct node {
 } node;
  
 void dispose(node* t);
-//struct Movie find(char *str, node *t );
 node* find(char *str, node *t); 
 node* find_min( node *t );
 node* find_max( node *t );
@@ -26,5 +25,5 @@ void display_avl(node* t);
 void display_user(node* t);
 char* get( node* n );
 void display_matches(node* t, char *userInput, struct Movie *matches);
-
+void print_to_text(node* t, FILE *userFile); 
 #endif // AVLTREE_H_

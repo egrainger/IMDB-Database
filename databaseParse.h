@@ -4,5 +4,5 @@
 
 void removeSubstr (char *string, char *sub); 
 node* parsedatabase(node *tree);   
-
+node* parseUserFile(node* tree, FILE *file); 
 #endif // PARSEDATABASE_H_

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "databaseParse.h"
 #include "structs.h"
 #include "avltree.h" 
@@ -208,10 +209,13 @@ void display_avl(node* t) {
 
 void display_matches(node* t, char *userInput, struct Movie *matches) { 
   static int counter = 1;
+  printf("counter value is: %d\n", counter); 
   if (counter > 30) { 
     return;
   }
-  
+
+  int index;
+  index = (counter-1) % 30;
   int len;
   len = strlen(userInput);
   
@@ -223,18 +227,19 @@ void display_matches(node* t, char *userInput, struct Movie *matches) {
   }
 
   if(strstr(t->info.avlTitle, userInput)) {
-    printf("%d\t", counter);
+    printf("%d\t", index);
     counter++;
-    strcpy(matches[counter-1].Title, t->info.Title);
-    strcpy(matches[counter-1].releaseYear,t->info.releaseYear);
-    strcpy(matches[counter-1].runtimeMinutes,t->info.runtimeMinutes);
-    strcpy(matches[counter-1].genres,t->info.genres);
-    strcpy(matches[counter-1].avlTitle,t->info.avlTitle);
+    strcpy(matches[index].Title, t->info.Title);
+    strcpy(matches[index].releaseYear,t->info.releaseYear);
+    strcpy(matches[index].runtimeMinutes,t->info.runtimeMinutes);
+    strcpy(matches[index].genres,t->info.genres);
+    printf("Genres: %s", t->info.genres); 
+    strcpy(matches[index].avlTitle,t->info.avlTitle);
     printf("%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
   }
     
   display_matches(t->left, userInput, matches);
-  display_matches(t->right, userInput, matches); 
+  display_matches(t->right, userInput, matches);  
 }
 
 /*Recursively display user's AVL tree*/
@@ -242,12 +247,21 @@ void display_user(node* t) {
 
   if (t == NULL)
         return;
+  
+  printf("%s\t%s\t%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres,t->info.date, t->info.format);
+  display_user(t->left);
+  display_user(t->right);
+}
 
-  //printf("DATE AND FORMAT: %s %s", t->info.date, t->info.format); 
-  printf("%s %s %s %s %s %s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres,t->info.date, t->info.format);
+/*Print to user's text file at end of */ 
+void print_to_text(node*t, FILE *userFile) {
+  if (t == NULL)
+        return;
+  
+  fprintf(userFile, "%s\t%s\t%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres,t->info.date, t->info.format);
 
-  display_avl(t->left);
-  display_avl(t->right);
+  print_to_text(t->left, userFile);
+  print_to_text(t->right, userFile);
 }
     
 
