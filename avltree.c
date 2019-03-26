@@ -317,12 +317,12 @@ void display_avl(node* t) {
 
 /*Recursively print all matches for the user's input and save them to an array*/
 void display_matches(node* t, char *userInput, struct Movie *matches) { 
-  static int counter = 0;
+  static int counter = 1;
  
   printf("counter value is: %d\n", counter); 
-  if (counter > 30) { 
-    return;
-  }
+  //if (counter > 30) { 
+  //  return;
+  //}
   
   int len;
   len = strlen(userInput);
@@ -334,12 +334,12 @@ void display_matches(node* t, char *userInput, struct Movie *matches) {
     printf("Exact match!\n");
   }
 
-  if(strstr(t->info.avlTitle, userInput)) {
-    strcpy(matches[counter].Title, t->info.Title);
-    strcpy(matches[counter].releaseYear,t->info.releaseYear);
-    strcpy(matches[counter].runtimeMinutes,t->info.runtimeMinutes);
-    strcpy(matches[counter].genres,t->info.genres);
-    strcpy(matches[counter].avlTitle,t->info.avlTitle);
+  if(strstr(t->info.avlTitle, userInput)) { 
+    strcpy(matches[counter-1].Title, t->info.Title);
+    strcpy(matches[counter-1].releaseYear,t->info.releaseYear);
+    strcpy(matches[counter-1].runtimeMinutes,t->info.runtimeMinutes);
+    strcpy(matches[counter-1].genres,t->info.genres);
+    strcpy(matches[counter-1].avlTitle,t->info.avlTitle);
     printf("%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
     counter++; 
   }

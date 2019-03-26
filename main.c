@@ -10,8 +10,10 @@
 #include "messages.h"
 #include "avltree.h"
 
+static int counter = 1; 
+
 int main (void) {
-  
+ 
   //Initialize avl tree for database
   node *HEAD_DB = NULL; 
   HEAD_DB = parsedatabase(HEAD_DB); 
@@ -24,7 +26,8 @@ int main (void) {
   node *HEAD_USER = NULL; 
   
   //Want an array to hold matches found by the display_matches function
-  struct Movie match[30];
+  struct Movie empty = {0}; 
+  struct Movie match[30] = {empty};
   
   //Welcome message; obtain userID
   printf("Welcome to your movie library.\nTo begin, please enter in your userID in the format of 'firstname_lastname' to avoid duplicate logs.\n");
@@ -83,12 +86,18 @@ int main (void) {
       //Search the database avl tree
       printf("Searching for: %s\n", search); 
 
+      //Make sure match array is clear
+      for (int i = 0; i <= 30; i++) {
+	match[i] = empty;
+      }
+
       //Find top 30 best matches
       display_matches(find(search, HEAD_DB), search, match);
+      counter = 1; 
       
       //Print the array with the top thirty matches 
       printf("Match is filled with this: \n");
-      for (int x = 1; x <= 30; x++){
+      for (int x = 0; x <= 30; x++){
 	printf("%d\t%s\n", x, match[x].Title);  
       }
 
