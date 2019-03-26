@@ -15,14 +15,11 @@ typedef struct node {
   int      height;  
 } node;
  
-void dispose(node* t);
 node* find(char *str, node *t); 
 node* find_min( node *t );
 node* find_max( node *t );
 node* insert( struct Movie newMovie, node *t );
-node* successor(char *str, node* t, node* succ); 
-int balance_factor(node* t); 
-node* delete(node *t, char* str);
+node *del(node *tTree, char *str);
 void display_avl(node* t);
 void display_user(node* t);
 char* get( node* n );

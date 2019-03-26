@@ -185,119 +185,47 @@ node* insert(struct Movie newMovie, node* t ) {
     return t;
 }
 
-/*Find the successor node*/
-node* successor(char *str, node *t, node* succ) {
-  //base case
-  if (t == NULL) {
-    succ = NULL;
-    return succ; 
-  }
-  
-  //if node with key's value is found, the successor is min value node in its right subtree (if any)
-  if (strcmp(str, t->info.avlTitle) == 0) {
-    if (t->right)
-      succ = find_min(t->right);
-  }
-  
-  //if given key is less than the root node recurse for left subtree
-  else if (strcmp(str, t->info.avlTitle) < 0) {
-    //update successor to current node before recursing left subtree
-    succ = t;
-    successor(str, t->left, succ); 
-  }
-  //if given key is more than the root node, recurse for right subtree
-  else
-    successor(str, t->right, succ);
-  return succ; 
-}
-
-int balance_factor(node *t)
+/*delete a node from the avl tree*/
+node* del(node *tTree, char *delItem) /* delete( main body) */
 {
-	int lh,rh;
-	if(t == NULL)
-	  return(0);
-	
-	if(t->left == NULL)
-	  lh = 0;
-	else
-	  lh = 1 + t->left->height;
-	
-	if(t->right == NULL)
-	  rh = 0;
-	else
-	  rh = 1 + t->right->height;
-	
-	return(lh-rh);
-}
-
-/*remove a node in the tree*/
-node* delete(node* t, char *str ) {
-  struct node *remove_node;
-  //If empty can't delete
-  if (t == NULL){
-    return t;
-  }
-
-  printf("str to remove: %s", str); 
-  //Check to find stuff
-  if (strcmp(str, t->info.avlTitle) < 0) {
-    t->left = delete(t->left, str);
-    
-  } else if (strcmp(str, t->info.avlTitle) > 0) {
-    t->right = delete(t->right,str);
-  }
-  else {
-
-    if ((t->left == NULL) && (t->right != NULL)){
-      remove_node = t->right;
-      *t = *remove_node;
-      dispose(remove_node); // this is for free-ing the memory
-      
-    } else if ((t->right == NULL)  && (t->left != NULL)){
-      remove_node = t->left;
-      *t = *remove_node;
-      dispose(remove_node);
-	    
-    } else if ((t->right == NULL)  && (t->left == NULL)){
-      remove_node = t;
-      t = NULL;
-      
-    } else {
-      node* succ = NULL; 
-      remove_node = successor(str, t, succ);
-      strcpy(t->info.avlTitle, remove_node->info.avlTitle);
-      t->right = delete(t->right, remove_node->info.avlTitle);
-    }
-
-    }
-
-    if (t == NULL) {
-        return t;
-
-    if (balance_factor(t) == 2){
-        if (balance_factor(t->left) == -1) {
-	  return single_rotate_with_right(t); 
-
-        } else if (balance_factor(t->left) == 1) {
-	  return double_rotate_with_left(t); 
-        }
-    }
-
-    if (balance_factor(t) == -2) {
-        if (balance_factor(t->right) == -1) {
-	  return single_rotate_with_left(t); 
-	}
-
-	else if (balance_factor(t->right) == 1)  { 
-	  return double_rotate_with_right(t); 
+    if(!(tTree))
+        return tTree;
+    if(strcmp(delItem, tTree->info.avlTitle) < 0)
+        tTree->left = del(tTree->left, delItem);
+    else 
+      if(strcmp(delItem, tTree->info.avlTitle) > 0)
+            tTree->right = del(tTree->right, delItem); 
+        else 
+        {
+            node *oTree = tTree;
+            if((tTree->left) && (tTree->right))
+            {
+                node *parent = tTree->right;
+                tTree = parent->left;
+                if (tTree)
+                {
+                    while(tTree->left)
+                    {
+                        parent = tTree;
+                        tTree = tTree->left;
+                    }
+                    parent->left = tTree->right;
+                    tTree->right = oTree->right;
+                }
+                else
+                    tTree = parent;
+                tTree->left = oTree->left;
             }
+            else
+                if(tTree->left)
+                    tTree = tTree->left;
+                else
+                    tTree = tTree->right;
+            free(oTree);
         }
-    }
-
-    return t;    
+    return tTree;
 }
 
-  
 /*get data of a node
 char* get(node* n) {
     return n->info.Title;

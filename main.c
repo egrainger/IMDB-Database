@@ -289,7 +289,7 @@ int main (void) {
       printf("DELETE\n");
 
       //Get proper user search title 
-      printf("Please type the title of the movie you wish to delete from your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
+      printf("Please type the exact title of the movie you wish to delete from your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
       getchar();  //Flush the \n out of the buffer 
       scanf("%[^\n]s",search);//Scan in movie title
 
@@ -299,7 +299,7 @@ int main (void) {
       removeSubstr(search, "a ");
       removeSubstr(search, "an ");
       
-      delete(HEAD_USER, search);
+      del(HEAD_USER, search);
       break;
       
       /*This case prints a help message*/
