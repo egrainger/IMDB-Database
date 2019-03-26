@@ -188,16 +188,19 @@ node* insert(struct Movie newMovie, node* t ) {
 /*delete a node from the avl tree*/
 node* del(node *tTree, char *delItem) /* delete( main body) */
 {
-    if(!(tTree))
+  if(!(tTree))
         return tTree;
+  int len;
+  len = strlen(delItem);
+  
     if(strcmp(delItem, tTree->info.avlTitle) < 0)
         tTree->left = del(tTree->left, delItem);
     else 
       if(strcmp(delItem, tTree->info.avlTitle) > 0)
             tTree->right = del(tTree->right, delItem); 
-        else 
+      else 
         {
-            node *oTree = tTree;
+	    node *oTree = tTree;
             if((tTree->left) && (tTree->right))
             {
                 node *parent = tTree->right;
@@ -223,6 +226,7 @@ node* del(node *tTree, char *delItem) /* delete( main body) */
                     tTree = tTree->right;
             free(oTree);
         }
+    
     return tTree;
 }
 
