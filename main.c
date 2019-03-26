@@ -28,6 +28,10 @@ int main (void) {
   //Want an array to hold matches found by the display_matches function
   struct Movie empty = {0}; 
   struct Movie match[30] = {empty};
+
+  //Some common types that will be used later
+  char typeOwned[8];
+  char purchased[11];
   
   //Welcome message; obtain userID
   printf("Welcome to your movie library.\nTo begin, please enter in your userID in the format of 'firstname_lastname' to avoid duplicate logs.\n");
@@ -39,6 +43,8 @@ int main (void) {
   FILE *fptr;
   char userFile[55];
   strcpy(userFile, strcat(userID, ".txt"));
+
+  //Read user's file if it exists and update their avl tree accordingly
   if((fptr = fopen(userFile, "r")) != NULL)
     HEAD_USER = parseUserFile(HEAD_USER, fptr);
   fclose(fptr); 
@@ -59,16 +65,14 @@ int main (void) {
   //Identify the single character for function choice
   char userChoiceProper;
   userChoiceProper = userChoice[0]; 
-
-  char typeOwned[8];
-  char purchased[11];
   
-  while (userChoiceProper != 'e'){
+  while (userChoiceProper != 'e'){ //if user types in 'e' they will exit the program
     switch (userChoiceProper) {
       
       /*This case deals with adding a new entry to the user's file*/
     case 'a':
       printf("ADD\n");
+      //Initial stuff
       struct Movie userMov; 
       char search[250];
 
@@ -95,7 +99,7 @@ int main (void) {
       display_matches(find(search, HEAD_DB), search, match);
       counter = 1; 
       
-      //Print the array with the top thirty matches 
+      //DEBUG: Print the array with the top thirty matches 
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
 	printf("%d\t%s\n", x, match[x].Title);  
@@ -125,13 +129,13 @@ int main (void) {
 	printf("User: %s\t%s\t%s\t%s\n",userMov.Title, userMov.releaseYear, userMov.runtimeMinutes, userMov.genres);
       }
 
-      //Have user enter when they bought the movie
+      //Have user enter when they bought the movie and add it to struct
       printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
       scanf("%s", purchased);
       printf("Purchased: %s", purchased);
       strcpy(userMov.date, purchased);
       
-      //Have user enter what type of format their version of the movie is in 
+      //Have user enter what type of format their version of the movie is in and add it to struct 
       printf("\nWhat format do you own? To answer please type 'b' for bluray, 'v' for dvd, or 'd' for digital:\t");
       //Read user choice from stdin
       scanf("%s", typeOwned);
@@ -155,7 +159,7 @@ int main (void) {
       printf("If you typed in an incorrect response, the format of the movie will default to digital copy.\n");
       strcpy(userMov.format, typeOwned);
       
-      HEAD_USER = insert(userMov, HEAD_USER); 
+      HEAD_USER = insert(userMov, HEAD_USER); //insert the struct into the user's avl tree 
       
       break;
        
@@ -163,10 +167,11 @@ int main (void) {
       /*This case deals with updating an entry in the user's file*/
       case 'u':
 	printf("UPDATE\n");
+	//Initial stuff
 	node *found;
 	
 	//Get proper user search title 
-	printf("Please type the exact title of the movie you wish to add to your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
+	printf("Please type the exact title of the movie you wish to update in your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
 	getchar();  //Flush the \n out of the buffer 
 	scanf("%[^\n]s",search);//Scan in movie title
 	
@@ -179,12 +184,14 @@ int main (void) {
 	//Search the database avl tree
 	printf("Searching for: %s\n", search); 
 	
-	//Find top 30 best matches 
+	//DEBUG: Find exact match or break out 
 	found = find(search, HEAD_USER);
 	if (strcmp(found->info.avlTitle, search) != 0 || strlen(found->info.avlTitle) != strlen(search)) {
 	  printf("Please try update again and type the exact title\n."); 
 	  break; 
     }
+
+	/*The rest of the code in this case follows the sames steps as the above code in case 'a'. The main difference is you can choose if you'd like to update one or both of the user inputs, thus the cases.*/
 	printf("To update date of purchase type 'd'. To update format owned type 'f'. To update both, type 'b'. Please enter your input: \t");
 	//Read user choice from stdin
 	scanf("%s", userChoice);
@@ -279,7 +286,7 @@ int main (void) {
       removeSubstr(search, "a ");
       removeSubstr(search, "an ");
 
-      //Find the one match
+      //Find the exact match and display it 
       display_userChoice(find(search,HEAD_USER), search);
       
       break;
@@ -298,26 +305,27 @@ int main (void) {
       removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
       removeSubstr(search, "a ");
       removeSubstr(search, "an ");
-      
-      del(HEAD_USER, search);
+
+      //Delete the node the user inputs
+      del(HEAD_USER, search); 
       break;
       
       /*This case prints a help message*/
     case 'h':
       printf("HELP\n");
-      help();
+      help(); //print a help statement
       break;
       
       /*This case occurs when the user's input does not match any of the other cases*/
     default:  
-      printf("INVALID INPUT\n"); 
+      printf("INVALID INPUT\n"); //for when someone clearly can't read instructions or simply bumped a key
       break; 
     }
     
     //Scan for new input
-    exitContinue();
-    scanf("%s", userChoice);
-    while (userChoice[1] != '\0') {
+    exitContinue(); //print message to prompt user for new input and remind them how to exit
+    scanf("%s", userChoice); //scan in the user's next desired functionality
+    while (userChoice[1] != '\0') { //check as always that the user is following directions
       error();
       scanf("%s", userChoice);
     }
@@ -325,10 +333,10 @@ int main (void) {
   }
 
   //Write final user tree to its text file 
-  fptr = fopen(userFile, "w");
-  print_to_text(HEAD_USER, fptr); 
-  fclose(fptr);
+  fptr = fopen(userFile, "w"); //open up the user's file again for writing
+  print_to_text(HEAD_USER, fptr); //print the new avl tree to the user's .txt file, effectively overwriting whatever was previously written to the file
+  fclose(fptr); //never forget to close a file 
   
-  printf("\nEXIT\n");
+  printf("\nEXIT\n"); //nice little exit statement since everything else got it's own functionality title 
   return 0;
 }

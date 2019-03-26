@@ -9,7 +9,7 @@
 /*This function's purpose is to help remove articles from my titles for ease of comparison*/
 void removeSubstr (char *string, char *sub) { //string is my title and sub is the article which I want to remove
   char *match;
-  int len = strlen(sub);
+  int len = strlen(sub); 
   while ((match = strstr(string, sub))) {
     *match = '\0';
     strcat(string, match+len);
@@ -25,14 +25,14 @@ node* parsedatabase (node *tree) {
 
   printf("\nPlease wait a moment movie_records.txt is being parsed.\n"); //Let the user know to be patient
   
-  FILE * movie;
-  movie = fopen("movie_records.txt", "r");
+  FILE * movie; 
+  movie = fopen("movie_records.txt", "r"); //the key reason it's so important people can follow directions since it opens movie_records.txt specifically
 
  while (fgets(line, sizeof(line), movie) != NULL) { //Read in the file line by line for each movie object
     token = strtok(line, "\t");    //Get first token
     while( token != NULL ) {       // walk through other tokens
       switch (i) {
-        case 2:
+      case 2: //second column
 	  strcpy(newMovie.Title, token);  //Maintain copy of original title for user's records
  	  strlwr(token);                 //Avoids weird user input with incorrect capitalization
           removeSubstr(token, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
@@ -41,15 +41,15 @@ node* parsedatabase (node *tree) {
 	  strcpy(newMovie.avlTitle, token); //Store the modified title which is all lowercase with no articles
 	  break;
 
-        case 5:
+      case 5: //fifth column
 	  strcpy(newMovie.releaseYear, token); //Store the release year
 	  break;
 
-        case 7:
+      case 7: //seventh column
           strcpy(newMovie.runtimeMinutes, token); //Store the runtime in minutes
 	  break; 
 
-        case 8:
+      case 8: //eighth column 
 	  removeSubstr(token, "\n");
 	  strcpy(newMovie.genres, token);  //Store the genres 
 	  break; 
@@ -58,7 +58,7 @@ node* parsedatabase (node *tree) {
 	  break;
       }
       i++; //increment after each column 
-      token = strtok(NULL, "\t"); 
+      token = strtok(NULL, "\t"); //reset 
       
    }
     i = 0; //reset i value for next movie
@@ -81,12 +81,11 @@ node *parseUserFile(node *tree, FILE *file) {
 
   printf("\nPlease wait a moment your text file is being parsed.\n"); //Let the user know to be patient
   
-  while (fgets(line, sizeof(line), file) != NULL) { //Read in the file line by line for each movie object
-    printf("LINE: %s\n", line); 
+  while (fgets(line, sizeof(line), file) != NULL) { //Read in the file line by line for each movie object 
     token = strtok(line, "\t");    //Get first token
     while( token != NULL ) {       // walk through other tokens
       switch (i) {
-      case 0:
+      case 0: //column 1
 	strcpy(newMovie.Title, token);  //Maintain copy of original title for user's records
 	strlwr(token);                 //Avoids weird user input with incorrect capitalization
 	removeSubstr(token, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
@@ -96,27 +95,27 @@ node *parseUserFile(node *tree, FILE *file) {
 	printf("%s %s", newMovie.Title, newMovie.avlTitle); 
 	break;
 	
-      case 1:
+      case 1: //column 2
 	strcpy(newMovie.releaseYear, token); //Store the release year
 	printf("%s ", newMovie.releaseYear);
 	break;
 	
-      case 2:
+      case 2: //column 3
 	strcpy(newMovie.runtimeMinutes, token); //Store the runtime in minutes
 	printf("%s ", newMovie.runtimeMinutes); 
 	break; 
 	
-      case 3:
+      case 3: //column 4
 	strcpy(newMovie.genres, token);  //Store the genres
 	printf("%s ", newMovie.genres); 
 	break;
 	
-      case 4:
+      case 4: //column 5
 	strcpy(newMovie.date, token);
 	printf("%s ", newMovie.date); 
 	break;
 	
-      case 5:
+      case 5: //column 6 
 	removeSubstr(token, "\n");
 	strcpy(newMovie.format, token);
 	printf("%s\n", newMovie.format); 
@@ -126,7 +125,7 @@ node *parseUserFile(node *tree, FILE *file) {
 	break;
       }
       i++; //increment after each column 
-      token = strtok(NULL, "\t"); 
+      token = strtok(NULL, "\t"); //reset 
       
     }
     i = 0; //reset i value for next movie

@@ -1,8 +1,6 @@
 /* Code courtesy of http://www.zentut.com/c-tutorial/c-avl-tree/ 
-    https://www.techiedelight.com/find-inorder-successor-given-key-bst/
-    https://stackoverflow.com/questions/10988677/deleting-an-element-in-avl-trees-in-c
-    https://www.thecrazyprogrammer.com/2014/03/c-program-for-avl-tree-implementation.html
-    Updated to work with my needs
+   https://stackoverflow.com/questions/35297364/avl-tree-delete-item-in-c
+   Updated to work with my needs
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,10 +28,10 @@ node *find(char *str, node*t){
   if(t == NULL)
     return NULL;
 
-  if(strncmp(str, t->info.avlTitle, len) < 0)
+  if(strncmp(str, t->info.avlTitle, len) < 0) //str is less than current node's title
     return find(str, t->left);
 
-  else if(strncmp(str, t->info.avlTitle, len) > 0)
+  else if(strncmp(str, t->info.avlTitle, len) > 0) //str is greater than current node's title
     return find(str, t->right);
 
   else
@@ -143,7 +141,7 @@ node* insert(struct Movie newMovie, node* t ) {
 	  exit(1);
         }
       else
-        {
+        { //copy all of the input struct's info over into the new node to be added
 	  strcpy(t->info.Title, newMovie.Title);    
 	  strcpy(t->info.releaseYear ,newMovie.releaseYear);
 	  strcpy(t->info.runtimeMinutes ,newMovie.runtimeMinutes);
@@ -151,26 +149,30 @@ node* insert(struct Movie newMovie, node* t ) {
 	  strcpy(t->info.avlTitle ,newMovie.avlTitle);	 
 	  t->height = 0;
 	  t->left = t->right = NULL;
+	  //if these exist it will account for their values...not really sure that it's necessary
 	  if (newMovie.format)
 	    strcpy(t->info.format, newMovie.format);
 	  if (newMovie.date)
 	    strcpy(t->info.date, newMovie.date); 
         }
     }
-  else if(strcmp(newMovie.avlTitle, t->info.avlTitle) < 0 )
+  //tree was not null 
+  else if(strcmp(newMovie.avlTitle, t->info.avlTitle) < 0 ) //newMovie is less than current node
     {
-      t->left = insert( newMovie, t->left );
+      t->left = insert( newMovie, t->left );  //recurse to left subtree
       if((height( t->left ) - height( t->right)) == 2 ) {
-	if( strcmp(newMovie.avlTitle, t->left->info.avlTitle) < 0 )
+	//rotations to balance avl
+	if( strcmp(newMovie.avlTitle, t->left->info.avlTitle) < 0 ) 
 	  t = single_rotate_with_left( t );    
 	else
                 t = double_rotate_with_left( t );
       }
     }
-  else if( strcmp(newMovie.avlTitle, t->info.avlTitle) > 0)
+  else if( strcmp(newMovie.avlTitle, t->info.avlTitle) > 0) //newMovie is greater than current node 
     {
-      t->right = insert( newMovie, t->right );
+      t->right = insert( newMovie, t->right ); //recurse to right subtree
       if( height( t->right ) - height( t->left ) == 2 ) {
+	//rotations to balance avl 
 	if( strcmp(newMovie.avlTitle, t->right->info.avlTitle) > 0 )
                 t = single_rotate_with_right( t );
 	else
@@ -178,8 +180,7 @@ node* insert(struct Movie newMovie, node* t ) {
       }    
       
     }
-  /* Else X is in the tree already; we'll do nothing */
-  
+  /* Else X is in the tree already; we'll do nothing */  
     t->height = max( height( t->left ), height( t->right ) ) + 1;
     
     return t;
@@ -190,21 +191,19 @@ node* del(node *tTree, char *delItem) /* delete( main body) */
 {
   if(!(tTree))
         return tTree;
-  int len;
-  len = strlen(delItem);
   
-    if(strcmp(delItem, tTree->info.avlTitle) < 0)
-        tTree->left = del(tTree->left, delItem);
+  if(strcmp(delItem, tTree->info.avlTitle) < 0) //delItem less than current title 
+    tTree->left = del(tTree->left, delItem); //recurse left
     else 
-      if(strcmp(delItem, tTree->info.avlTitle) > 0)
-            tTree->right = del(tTree->right, delItem); 
-      else 
+      if(strcmp(delItem, tTree->info.avlTitle) > 0) //delItem greater than current title
+	tTree->right = del(tTree->right, delItem); //recurse right
+      else //equivalent
         {
 	    node *oTree = tTree;
-            if((tTree->left) && (tTree->right))
+            if((tTree->left) && (tTree->right)) //two children
             {
-                node *parent = tTree->right;
-                tTree = parent->left;
+	      node *parent = tTree->right;  //new parent is right subtree
+	      tTree = parent->left; //gross successor stuff from here down
                 if (tTree)
                 {
                     while(tTree->left)
@@ -220,9 +219,9 @@ node* del(node *tTree, char *delItem) /* delete( main body) */
                 tTree->left = oTree->left;
             }
             else
-                if(tTree->left)
+	      if(tTree->left) //only left child
                     tTree = tTree->left;
-                else
+	      else //only right child
                     tTree = tTree->right;
             free(oTree);
         }
@@ -241,7 +240,7 @@ void display_avl(node* t) {
   if (t == NULL)
         return;
    
-  printf(" %s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
+  printf(" %s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres); 
   
   display_avl(t->left);
   display_avl(t->right);
@@ -305,7 +304,7 @@ void print_to_text(node*t, FILE *userFile) {
 /*display user's choice from retrieve*/
 void display_userChoice(node* t, char *str) {
   if (t == NULL)
-        return;
+    return;
   int len = strlen(str); 
   if (strcmp(str, t->info.avlTitle) == 0 && len == strlen(t->info.avlTitle)); 
   printf("%s\t%s\t%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres,t->info.date, t->info.format);
