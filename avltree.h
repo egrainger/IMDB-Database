@@ -23,7 +23,7 @@ node *del(node *tTree, char *str); //delete a node from the user's tree based on
 void display_avl(node* t); //display the whole avl tree minus format and date (mostly for original database
 void display_user(node* t); //display the user's tree including format and date
 char* get( node* n ); //n/a
-void display_matches(node* t, char *userInput, struct Movie *matches); //the function that still won't work -_-
+void display_matches(node* t, char *userInput, struct Movie *matches, int *count); //the function that still won't work -_-
 void display_userChoice(node *t, char *str); //displays retrieved node based on user's text 
 void print_to_text(node* t, FILE *userFile); //prints user's final avl tree on exit of program to their .txt file
 

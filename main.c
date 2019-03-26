@@ -8,9 +8,7 @@
 #include "databaseParse.h"
 #include "structs.h"
 #include "messages.h"
-#include "avltree.h"
-
-static int counter = 1; 
+#include "avltree.h" 
 
 int main (void) {
  
@@ -96,8 +94,9 @@ int main (void) {
       }
 
       //Find top 30 best matches
-      display_matches(find(search, HEAD_DB), search, match);
-      counter = 1; 
+      int counter = 0; 
+      int *count = &counter;
+	display_matches(find(search, HEAD_DB), search, match, count); 
       
       //DEBUG: Print the array with the top thirty matches 
       printf("Match is filled with this: \n");
