@@ -2,9 +2,11 @@
 
 CS201 Movie Database
 
-This project is designed to build CRUD records of the users' movie libraries. It will load in the lookup dataset into memory from IMDB's movie database 'title.basics.tsv.gz' (https://datasets.imdbws.com/). Multiple users are allowed to use the application and can resume work on their personal files at a later time.
+This project is designed to build CRUD records of the users' movie libraries. It will load in the lookup dataset into memory from IMDB's movie database 'title.basics.tsv.gz' (https://datasets.imdbws.com/). Mul\
+tiple users are allowed to use the application and can resume work on their personal files at a later time.
 
-Before loading this program, please download 'title.basics.tsv.gz' into the same file as the c code and extract it. To do so, you will need a program capable of unzipping such a zipped file. I recommend 7zip or WinZip, but 7zip is free, so do with that information what you will. Please make sure the name of your extracted files is 'title.basics.tsv' for the command line prompt below. 
+Before loading this program, please download 'title.basics.tsv.gz' into the same file as the c code and extract it. To do so, you will need a program capable of unzipping such a zipped file. I recommend 7zip o\
+r WinZip, but 7zip is free, so do with that information what you will. Please make sure the name of your extracted files is 'title.basics.tsv' for the command line prompt below.
 
 Utilize this command line code to create a file for just movies:
 
