@@ -30,6 +30,10 @@ int main (void) {
   //Some common types that will be used later
   char typeOwned[8];
   char purchased[11];
+  int counter = 0; 
+  int *count = &counter;
+  int pickOne; 
+  node *found;
   
   //Welcome message; obtain userID
   printf("Welcome to your movie library.\nTo begin, please enter in your userID in the format of 'firstname_lastname' to avoid duplicate logs.\n");
@@ -92,11 +96,10 @@ int main (void) {
       for (int i = 0; i <= 30; i++) {
 	match[i] = empty;
       }
-
+      
       //Find top 30 best matches
-      int counter = 0; 
-      int *count = &counter;
-	display_matches(find(search, HEAD_DB), search, match, count); 
+      counter = 0; 
+      display_matches(find(search, HEAD_DB), search, match, count); 
       
       //DEBUG: Print the array with the top thirty matches 
       printf("Match is filled with this: \n");
@@ -116,10 +119,13 @@ int main (void) {
       if (pickOne == 0 || pickOne > 30 ){
 	printf("None of the options were correct.\n"); 
 	break;
-      }
-
+      } 
+      
       //Input is valid so add basic movie info to struct
       else {
+	//Gets proper array indexing
+	pickOne--;
+	//Copies over info
 	strcpy(userMov.Title, match[pickOne].Title); 
 	strcpy(userMov.releaseYear, match[pickOne].releaseYear);
 	strcpy(userMov.runtimeMinutes, match[pickOne].runtimeMinutes);
@@ -166,11 +172,9 @@ int main (void) {
       /*This case deals with updating an entry in the user's file*/
       case 'u':
 	printf("UPDATE\n");
-	//Initial stuff
-	node *found;
 	
 	//Get proper user search title 
-	printf("Please type the exact title of the movie you wish to update in your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
+	printf("Please type the title of the movie you wish to update in your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
 	getchar();  //Flush the \n out of the buffer 
 	scanf("%[^\n]s",search);//Scan in movie title
 	
@@ -182,26 +186,55 @@ int main (void) {
 	
 	//Search the database avl tree
 	printf("Searching for: %s\n", search); 
-	
-	//DEBUG: Find exact match or break out 
-	found = find(search, HEAD_USER);
-	if (strcmp(found->info.avlTitle, search) != 0 || strlen(found->info.avlTitle) != strlen(search)) {
-	  printf("Please try update again and type the exact title\n."); 
-	  break; 
-    }
 
-	/*The rest of the code in this case follows the sames steps as the above code in case 'a'. The main difference is you can choose if you'd like to update one or both of the user inputs, thus the cases.*/
-	printf("To update date of purchase type 'd'. To update format owned type 'f'. To update both, type 'b'. Please enter your input: \t");
-	//Read user choice from stdin
-	scanf("%s", userChoice);
-	
+
+      //Make sure match array is clear
+      for (int i = 0; i <= 30; i++) {
+        match[i] = empty;
+      }
+
+      //Find top 30 best matches
+      counter = 0;
+      display_matches(find(search, HEAD_USER), search, match, count);
+
+      //DEBUG: Print the array with the top thirty matches
+      printf("Match is filled with this: \n");
+      for (int x = 0; x <= 30; x++){
+        printf("%d\t%s\n", x, match[x].Title);
+      }
+
+      //Have the user pick which movie they wish to add to their log
+      printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
+ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
+
+      //Read user choice from stdin
+      scanf("%d", &pickOne);
+      printf("Pick: %d\n", pickOne);
+
+      //Leave case a if instructions were not followed
+      if (pickOne == 0 || pickOne > 30 ){
+        printf("None of the options were correct.\n");
+        break;
+      }
+
+      //Gets proper array indexing
+      pickOne--; 
+      
+      //Find exact match 
+      found = find(match[pickOne].avlTitle, HEAD_USER);
+      
+      /*The rest of the code in this case follows the sames steps as the above code in case 'a'. The main difference is you can choose if you'd like to update one or both of the user inputs, thus the cases.*/
+      printf("To update date of purchase type 'd'. To update format owned type 'f'. To update both, type 'b'. Please enter your input: \t");
+      //Read user choice from stdin
+      scanf("%s", userChoice);
+      
 	//Make sure that input is an actual choice
-	while (userChoice[1] != '\0') {    //The input is not a single character
-	  error();
-	  scanf("%s", userChoice);       //Scan in new input
+      while (userChoice[1] != '\0') {    //The input is not a single character
+	error();
+	scanf("%s", userChoice);       //Scan in new input
 	}
-	userChoiceProper = userChoice[0];
-	
+      userChoiceProper = userChoice[0];
+      
 	switch (userChoiceProper) {
 	  
 	case 'd':
@@ -275,7 +308,7 @@ int main (void) {
       printf("READ\n");
       
       //Get proper user search title
-      printf("Please type the exact title of the movie you wish to read from your library. Omit an initial article such as 'The,' 'A,' or 'An':\n");
+      printf("Please type the title of the movie you wish to read from your library. Omit an initial article such as 'The,' 'A,' or 'An':\n");
       getchar();  //Flush the \n out of the buffer
       scanf("%[^\n]s",search);//Scan in movie title
 
@@ -285,17 +318,53 @@ int main (void) {
       removeSubstr(search, "a ");
       removeSubstr(search, "an ");
 
+      //Make sure match array is clear
+      for (int i = 0; i <= 30; i++) {
+        match[i] = empty;
+      }
+
+      //Find top 30 best matches
+      counter = 0;
+      display_matches(find(search, HEAD_USER), search, match, count);
+
+      //DEBUG: Print the array with the top thirty matches
+      printf("Match is filled with this: \n");
+      for (int x = 0; x <= 30; x++){
+        printf("%d\t%s\n", x, match[x].Title);
+      }
+
+      //Have the user pick which movie they wish to add to their log
+      printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
+ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
+
+      //Read user choice from stdin
+      scanf("%d", &pickOne);
+      printf("Pick: %d\n", pickOne);
+
+      //Leave case a if instructions were not followed
+      if (pickOne == 0 || pickOne > 30 ){
+        printf("None of the options were correct.\n");
+        break;
+      }
+
+      //Get proper array indexing
+      pickOne--;
+      
+      //Find exact match 
+      found = find(match[pickOne].avlTitle, HEAD_USER);
+
       //Find the exact match and display it 
-      display_userChoice(find(search,HEAD_USER), search);
+      display_userChoice(found);
       
       break;
+
       
-      /*This case allows the user to delete a movie from their file*/
+    /*This case allows the user to delete a movie from their file*/
     case 'd':
       printf("DELETE\n");
 
       //Get proper user search title 
-      printf("Please type the exact title of the movie you wish to delete from your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
+      printf("Please type the title of the movie you wish to delete from your library. Omit an initial article such as 'The,' 'A,' or 'An':\n"); 
       getchar();  //Flush the \n out of the buffer 
       scanf("%[^\n]s",search);//Scan in movie title
 
@@ -305,8 +374,40 @@ int main (void) {
       removeSubstr(search, "a ");
       removeSubstr(search, "an ");
 
-      //Delete the node the user inputs
-      del(HEAD_USER, search); 
+      //Make sure match array is clear
+      for (int i = 0; i <= 30; i++) {
+        match[i] = empty;
+      }
+
+      //Find top 30 best matches
+      counter = 0;
+      display_matches(find(search, HEAD_USER), search, match, count);
+
+      //DEBUG: Print the array with the top thirty matches
+      printf("Match is filled with this: \n");
+      for (int x = 0; x <= 30; x++){
+        printf("%d\t%s\n", x, match[x].Title);
+      }
+
+      //Have the user pick which movie they wish to add to their log
+      printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
+ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
+
+      //Read user choice from stdin
+      scanf("%d", &pickOne);
+      printf("Pick: %d\n", pickOne);
+
+      //Leave case a if instructions were not followed
+      if (pickOne == 0 || pickOne > 30 ){
+        printf("None of the options were correct.\n");
+        break;
+      }
+
+      //Gets proper array indexing
+      pickOne--; 
+      
+      //Delete the node the user picks
+      del(HEAD_USER, match[pickOne].avlTitle); 
       break;
       
       /*This case prints a help message*/

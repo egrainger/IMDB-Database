@@ -20,7 +20,7 @@ void dispose(node* t) {
     }
 }
 
-/*find a specific node's title in the tree*/
+/*find all potential nodes matching input in the tree*/
 node *find(char *str, node*t){ 
   int len;
   len = strlen(str); //Useful for strncmp() which will be useful for full or partial matches 
@@ -248,21 +248,18 @@ void display_avl(node* t) {
 
 /*Recursively print all matches for the user's input and save them to an array*/
 void display_matches(node* t, char *userInput, struct Movie *matches, int *count) { 
-   
-  printf("counter value is: %d\n", *count); 
+  int userIndex = (*count) + 1;
+  //Limit to top 30 responses
   if (*count > 30) { 
     return;
   }
   
-  int len;
-  len = strlen(userInput);
-  
   if (t == NULL)
     return;
 
-  if (len == strlen(t->info.avlTitle) && strcmp(userInput, t->info.avlTitle) == 0) {
+  /*if (len == strlen(t->info.avlTitle) && strcmp(userInput, t->info.avlTitle) == 0) {
     printf("Exact match!\n");
-  }
+    }*/
 
   if(strstr(t->info.avlTitle, userInput)) { 
     strcpy(matches[*count].Title, t->info.Title);
@@ -270,10 +267,10 @@ void display_matches(node* t, char *userInput, struct Movie *matches, int *count
     strcpy(matches[*count].runtimeMinutes,t->info.runtimeMinutes);
     strcpy(matches[*count].genres,t->info.genres);
     strcpy(matches[*count].avlTitle,t->info.avlTitle);
-    printf("%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
-    (*count)++; 
+    printf("%d: %s\t%s\t%s\t%s\n", userIndex, t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres);
+    (*count)++; //increment index for the array after filling in the space 
   }
-    
+  //Recursive calls
   display_matches(t->left, userInput, matches, count);
   display_matches(t->right, userInput, matches, count);   
 }
@@ -301,14 +298,10 @@ void print_to_text(node*t, FILE *userFile) {
 }
 
 /*display user's choice from retrieve*/
-void display_userChoice(node* t, char *str) {
+void display_userChoice(node* t) {
   if (t == NULL)
-    return;
-  int len = strlen(str); 
-  if (strcmp(str, t->info.avlTitle) == 0 && len == strlen(t->info.avlTitle)); 
-  printf("%s\t%s\t%s\t%s\t%s\t%s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres,t->info.date, t->info.format);
-  display_userChoice(t->left, str);
-  display_userChoice(t->right, str);
+    return;  
+  printf("%s\nYear Released: %s\nRuntime: %s\nGenres: %s\nDate Purchased: %s\nFormat Owned: %s\n",t->info.Title, t->info.releaseYear, t->info.runtimeMinutes, t->info.genres,t->info.date, t->info.format);
 }
 
     
