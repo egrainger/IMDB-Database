@@ -92,33 +92,33 @@ node *parseUserFile(node *tree, FILE *file) {
 	removeSubstr(token, "a ");
 	removeSubstr(token, "an ");
 	strcpy(newMovie.avlTitle, token); //Store the modified title which is all lowercase with no articles
-	printf("%s %s", newMovie.Title, newMovie.avlTitle); 
+	//printf("%s %s", newMovie.Title, newMovie.avlTitle); 
 	break;
 	
       case 1: //column 2
 	strcpy(newMovie.releaseYear, token); //Store the release year
-	printf("%s ", newMovie.releaseYear);
+	//printf("%s ", newMovie.releaseYear);
 	break;
 	
       case 2: //column 3
 	strcpy(newMovie.runtimeMinutes, token); //Store the runtime in minutes
-	printf("%s ", newMovie.runtimeMinutes); 
+	//printf("%s ", newMovie.runtimeMinutes); 
 	break; 
 	
       case 3: //column 4
 	strcpy(newMovie.genres, token);  //Store the genres
-	printf("%s ", newMovie.genres); 
+	//printf("%s ", newMovie.genres); 
 	break;
 	
       case 4: //column 5
 	strcpy(newMovie.date, token);
-	printf("%s ", newMovie.date); 
+	//printf("%s ", newMovie.date); 
 	break;
 	
       case 5: //column 6 
 	removeSubstr(token, "\n");
 	strcpy(newMovie.format, token);
-	printf("%s\n", newMovie.format); 
+	//printf("%s\n", newMovie.format); 
 	break;
 	
       default: //Just in case weird stuff happens

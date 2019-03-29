@@ -1,3 +1,4 @@
+
 /*Project: Movie Database 
   Creator: Emma Grainger
   Overview: Create and maintain a personal user library of movie titles from a compiled database. 
@@ -101,11 +102,11 @@ int main (void) {
       counter = 0; 
       display_matches(find(search, HEAD_DB), search, match, count); 
       
-      //DEBUG: Print the array with the top thirty matches 
+      /*DEBUG: Print the array with the top thirty matches 
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
 	printf("%d\t%s\n", x, match[x].Title);  
-      }
+	}*/
 
       //Have the user pick which movie they wish to add to their log
       printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match your desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
@@ -197,11 +198,11 @@ int main (void) {
       counter = 0;
       display_matches(find(search, HEAD_USER), search, match, count);
 
-      //DEBUG: Print the array with the top thirty matches
+      /*DEBUG: Print the array with the top thirty matches
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
         printf("%d\t%s\n", x, match[x].Title);
-      }
+      }*/
 
       //Have the user pick which movie they wish to add to their log
       printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
@@ -327,11 +328,11 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       counter = 0;
       display_matches(find(search, HEAD_USER), search, match, count);
 
-      //DEBUG: Print the array with the top thirty matches
+      /*DEBUG: Print the array with the top thirty matches
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
         printf("%d\t%s\n", x, match[x].Title);
-      }
+      }*/
 
       //Have the user pick which movie they wish to add to their log
       printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
@@ -383,11 +384,11 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       counter = 0;
       display_matches(find(search, HEAD_USER), search, match, count);
 
-      //DEBUG: Print the array with the top thirty matches
+      /*DEBUG: Print the array with the top thirty matches
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
         printf("%d\t%s\n", x, match[x].Title);
-      }
+	}*/
 
       //Have the user pick which movie they wish to add to their log
       printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
