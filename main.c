@@ -168,6 +168,8 @@ int main (void) {
       strcpy(userMov.format, typeOwned);
       
       HEAD_USER = insert(userMov, HEAD_USER); //insert the struct into the user's avl tree 
+
+      printf("\n%s added to your library!\n", userMov.Title); 
       
       break;
        
@@ -226,6 +228,8 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       
       //Find exact match 
       found = find(match[pickOne].avlTitle, HEAD_USER);
+
+      printf("\nUpdating %s\n", found->info.Title); 
       
       /*The rest of the code in this case follows the sames steps as the above code in case 'a'. The main difference is you can choose if you'd like to update one or both of the user inputs, thus the cases.*/
       printf("To update date of purchase type 'd'. To update format owned type 'f'. To update both, type 'b'. Please enter your input: \t");
@@ -244,7 +248,7 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 	case 'd':
 	  printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
 	  scanf("%s", purchased);
-	  strcpy(found->info.date, purchased);  
+	  strcpy(found->info.date, purchased);
 	  break;
 	  
 	case 'f':
@@ -304,6 +308,9 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 	  printf("Your response is not valid. You will have to try update again.\n");      
 	  break; 
 	}
+
+	printf("\n%s is updated!\n", found->info.Title);
+
 	break;
 	
 	/*This case allows the reader to view a node in their current file*/
@@ -413,9 +420,14 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 
       //Gets proper array indexing
       pickOne--; 
+
+      printf("\nDeleting %s\n", match[pickOne].Title); 
       
       //Delete the node the user picks
-      del(HEAD_USER, match[pickOne].avlTitle); 
+      del(HEAD_USER, match[pickOne].avlTitle);
+
+      printf("\n%s deleted!\n", match[pickOne].Title);
+
       break;
       
       /*This case prints a help message*/
