@@ -100,7 +100,9 @@ int main (void) {
       
       //Find top 30 best matches
       counter = 0; 
+      printf("\n"); 
       display_matches(find(search, HEAD_DB), search, match, count); 
+      printf("\n");
       
       /*DEBUG: Print the array with the top thirty matches 
       printf("Match is filled with this: \n");
@@ -196,8 +198,9 @@ int main (void) {
 
       //Find top 30 best matches
       counter = 0;
+      printf("\n");
       display_matches(find(search, HEAD_USER), search, match, count);
-
+      printf("\n");
       /*DEBUG: Print the array with the top thirty matches
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
@@ -326,8 +329,10 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 
       //Find top 30 best matches
       counter = 0;
+      printf("\n");
       display_matches(find(search, HEAD_USER), search, match, count);
-
+      printf("\n");
+      
       /*DEBUG: Print the array with the top thirty matches
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
@@ -382,8 +387,10 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 
       //Find top 30 best matches
       counter = 0;
+      printf("\n");
       display_matches(find(search, HEAD_USER), search, match, count);
-
+      printf("\n");
+      
       /*DEBUG: Print the array with the top thirty matches
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){

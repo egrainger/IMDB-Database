@@ -61,6 +61,7 @@ node* parsedatabase (node *tree) {
       token = strtok(NULL, "\t"); //reset 
       
    }
+    strcat(newMovie.avlTitle, newMovie.releaseYear); //account for reboots or movies with same names 
     i = 0; //reset i value for next movie
     tree = insert(newMovie, tree); //insert the new movie into the database's AVL tree
   }
@@ -124,6 +125,7 @@ node *parseUserFile(node *tree, FILE *file) {
       default: //Just in case weird stuff happens
 	break;
       }
+      strcat(newMovie.avlTitle, newMovie.releaseYear); //account for reboots or movies with same names
       i++; //increment after each column 
       token = strtok(NULL, "\t"); //reset 
       
