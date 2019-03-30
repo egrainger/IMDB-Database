@@ -112,7 +112,7 @@ int main (void) {
 	}*/
 
       //Have the user pick which movie they wish to add to their log
-      printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match your desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
+      printf("Please enter a number 1 - 31 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match your desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-31 or '0' it will default to escaping\n");
  
       //Read user choice from stdin
       int pickOne;
@@ -120,7 +120,7 @@ int main (void) {
       printf("Pick: %d\n", pickOne); 
       
       //Leave case a if instructions were not followed
-      if (pickOne == 0 || pickOne > 30 ){
+      if (pickOne == 0 || pickOne > 31 ){
 	printf("None of the options were correct.\n"); 
 	break;
       } 
@@ -219,15 +219,15 @@ int main (void) {
       }*/
 
       //Have the user pick which movie they wish to add to their log
-      printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
-ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
+      printf("Please enter a number 1 - 31 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
+ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-31 or '0' it will default to escaping\n");
 
       //Read user choice from stdin
       scanf("%d", &pickOne);
       printf("Pick: %d\n", pickOne);
 
       //Leave case a if instructions were not followed
-      if (pickOne == 0 || pickOne > 30 ){
+      if (pickOne == 0 || pickOne > 31 ){
         printf("None of the options were correct.\n");
         break;
       }
@@ -372,15 +372,15 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       }*/
 
       //Have the user pick which movie they wish to add to their log
-      printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
-ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
+      printf("Please enter a number 1 - 31 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
+ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-31 or '0' it will default to escaping\n");
 
       //Read user choice from stdin
       scanf("%d", &pickOne);
       printf("Pick: %d\n", pickOne);
 
       //Leave case a if instructions were not followed
-      if (pickOne == 0 || pickOne > 30 ){
+      if (pickOne == 0 || pickOne > 31 ){
         printf("None of the options were correct.\n");
         break;
       }
@@ -430,15 +430,15 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 	}*/
 
       //Have the user pick which movie they wish to add to their log
-      printf("Please enter a number 1 - 30 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
-ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-30 or '0' it will default to escaping\n");
+      printf("Please enter a number 1 - 31 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
+ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-31 or '0' it will default to escaping\n");
 
       //Read user choice from stdin
       scanf("%d", &pickOne);
       printf("Pick: %d\n", pickOne);
 
       //Leave case a if instructions were not followed
-      if (pickOne == 0 || pickOne > 30 ){
+      if (pickOne == 0 || pickOne > 31 ){
         printf("None of the options were correct.\n");
         break;
       }
