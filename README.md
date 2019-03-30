@@ -15,5 +15,14 @@ This code implements AVL trees as a way to store and sort structs of movie objec
 
 This code supports adding a movie to your database, updating the purchase date or format in which you own the movie, retrieving a particular movie from your database, and deleting a movie from your database. Your final user AVL tree at the exit condition will be printed to your “username.txt” file. This will then be read in each time you load the code and type in your username that way you can resume work later. 
 
+User Functions: 
+
+Users can add, update, retrieve, and delete movies from their personal movie databases. For tutorials on how to download the program as well as to how to implement all the user functions, please refer to these particular YouTube videos:
+
+"Tutorial: Download"                https://youtu.be/N_hqXEB5jS0
+"Tutorial: Add"                     https://youtu.be/rSRsqiFJ0oQ
+"Tutorial: Update and Retrieve"     https://youtu.be/Yj-S-VQfV-g
+"Tutorial: Delete, Help, and Exit"  https://youtu.be/OXimtruqXQQ
+
 Note: The release year had to be included due to initial findings that duplicates would not be stored. This fix now assumes that no two movies with the same title are released the same year. 
 Information courtesy of IMDb (http://www.imdb.com). Used with permission.
