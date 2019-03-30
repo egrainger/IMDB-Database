@@ -121,7 +121,7 @@ int main (void) {
       //printf("Pick: %d\n", pickOne); 
       
       //Leave case a if instructions were not followed
-      if (pickOne == 0 || pickOne > 31 ){
+      if (pickOne == 0 || pickOne > counter){   //Prevents user from entering a number of an index that's empty
 	printf("None of the options were correct.\n"); 
 	break;
       } 
@@ -230,7 +230,7 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       //printf("Pick: %d\n", pickOne);
 
       //Leave case a if instructions were not followed
-      if (pickOne == 0 || pickOne > 31 ){
+      if (pickOne == 0 || pickOne > counter ){
         printf("None of the options were correct.\n");
         break;
       }
@@ -384,7 +384,7 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       //printf("Pick: %d\n", pickOne);
 
       //Leave case a if instructions were not followed
-      if (pickOne == 0 || pickOne > 31 ){
+      if (pickOne == 0 || pickOne > counter ){
         printf("None of the options were correct.\n");
         break;
       }
@@ -443,7 +443,7 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       //printf("Pick: %d\n", pickOne);
 
       //Leave case a if instructions were not followed
-      if (pickOne == 0 || pickOne > 31 ){
+      if (pickOne == 0 || pickOne > counter ){
         printf("None of the options were correct.\n");
         break;
       }
