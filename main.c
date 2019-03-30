@@ -35,6 +35,7 @@ int main (void) {
   int *count = &counter;
   int pickOne; 
   node *found;
+  int lenInput;
   
   //Welcome message; obtain userID
   printf("Welcome to your movie library.\nTo begin, please enter in your userID in the format of 'firstname_lastname' to avoid duplicate logs.\n");
@@ -140,6 +141,14 @@ int main (void) {
       //Have user enter when they bought the movie and add it to struct
       printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
       scanf("%s", purchased);
+
+      //Input proofing
+      lenInput = strlen(purchased);
+      if (lenInput > 10) {
+	printf("Your input was not correctly formatted. The default date is set to 01/01/2019.\n");
+	strcpy(purchased, "01/01/2019");
+      }
+      
       printf("Purchased: %s", purchased);
       strcpy(userMov.date, purchased);
       
@@ -248,6 +257,14 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 	case 'd':
 	  printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
 	  scanf("%s", purchased);
+
+	  //Input proofing
+	  lenInput = strlen(purchased);
+	  if (lenInput > 10) {
+	    printf("Your input was not correctly formatted. The default date is set to 01/01/2019.\n");
+	    strcpy(purchased, "01/01/2019");
+	  }
+	  
 	  strcpy(found->info.date, purchased);
 	  break;
 	  
@@ -278,6 +295,14 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 	  //New purchase date
 	  printf("When did you purchase this movie? Please respond in this format: MM/DD/YYYY.\t");
 	  scanf("%s", purchased);
+
+	  //Input proofing
+	  lenInput = strlen(purchased);
+	  if (lenInput > 10) {
+	    printf("Your input was not correctly formatted. The default date is set to 01/01/2019.\n");
+	    strcpy(purchased, "01/01/2019");
+	  }
+      
 	  printf("Purchased: %s", purchased);
 	  
 	  //New format

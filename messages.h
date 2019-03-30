@@ -17,7 +17,7 @@ void error (void) {
 }
 
 void exitContinue (void) {
- printf("\nIf you wish to continue, please enter in any of the given character options.\nOtherwise, enter 'e' to exit the program.\t");
+ printf("\nIf you wish to continue, please enter in any of the given character options. If you need help remembering what those are, please enter in 'h'.\nOtherwise, enter 'e' to exit the program.\t");
 } 
 
 #endif // MESSAGES_H_
