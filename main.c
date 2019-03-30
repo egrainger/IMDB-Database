@@ -104,6 +104,7 @@ int main (void) {
       printf("\n"); 
       display_matches(find(search, HEAD_DB), search, match, count); 
       printf("\n");
+      printf("Press '0' to escape\n\n"); 
       
       /*DEBUG: Print the array with the top thirty matches 
       printf("Match is filled with this: \n");
@@ -117,7 +118,7 @@ int main (void) {
       //Read user choice from stdin
       int pickOne;
       scanf("%d", &pickOne);
-      printf("Pick: %d\n", pickOne); 
+      //printf("Pick: %d\n", pickOne); 
       
       //Leave case a if instructions were not followed
       if (pickOne == 0 || pickOne > 31 ){
@@ -212,19 +213,21 @@ int main (void) {
       printf("\n");
       display_matches(find(search, HEAD_USER), search, match, count);
       printf("\n");
+      
       /*DEBUG: Print the array with the top thirty matches
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
         printf("%d\t%s\n", x, match[x].Title);
       }*/
-
+      
+       printf("Press '0' to escape\n\n");
       //Have the user pick which movie they wish to add to their log
       printf("Please enter a number 1 - 31 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match yo\
 ur desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-31 or '0' it will default to escaping\n");
 
       //Read user choice from stdin
       scanf("%d", &pickOne);
-      printf("Pick: %d\n", pickOne);
+      //printf("Pick: %d\n", pickOne);
 
       //Leave case a if instructions were not followed
       if (pickOne == 0 || pickOne > 31 ){
@@ -364,7 +367,8 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       printf("\n");
       display_matches(find(search, HEAD_USER), search, match, count);
       printf("\n");
-      
+      printf("Press '0' to escape\n\n");
+
       /*DEBUG: Print the array with the top thirty matches
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
@@ -377,7 +381,7 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 
       //Read user choice from stdin
       scanf("%d", &pickOne);
-      printf("Pick: %d\n", pickOne);
+      //printf("Pick: %d\n", pickOne);
 
       //Leave case a if instructions were not followed
       if (pickOne == 0 || pickOne > 31 ){
@@ -422,7 +426,8 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       printf("\n");
       display_matches(find(search, HEAD_USER), search, match, count);
       printf("\n");
-      
+      printf("Press '0' to escape\n\n");
+
       /*DEBUG: Print the array with the top thirty matches
       printf("Match is filled with this: \n");
       for (int x = 0; x <= 30; x++){
@@ -435,7 +440,7 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
 
       //Read user choice from stdin
       scanf("%d", &pickOne);
-      printf("Pick: %d\n", pickOne);
+      //printf("Pick: %d\n", pickOne);
 
       //Leave case a if instructions were not followed
       if (pickOne == 0 || pickOne > 31 ){

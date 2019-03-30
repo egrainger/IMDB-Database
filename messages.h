@@ -7,7 +7,9 @@
 
 //Help function to remind user of function options
 void help (void) {
-  printf("\nThis library offers five main functions: add movies, update their information, delete your movies, read your log file, and help.\nTo select one of these options please enter the character associated with your desired function:\n\ta\tadd a movie to your library\n\tu\tupdate the information for a movie in your library currently\n\tr\tread your library\n\td\tdelete a movie from your library.\n\th\tinitial message will remind you of your options.\n");
+  printf("\nThis library offers six main functions: add movies, update information, delete movies, read your library, help, and exit.\nTo select one of these options please enter the character associated with yo\
+ur desired function:\n\n\ta\tadd a movie to your library\n\tu\tupdate the information for a movie in your library currently\n\tr\tretrieve a particular movie's info from your library\n\td\tdelete a movie from \
+your library.\n\th\tinitial message will remind you of your options\n\te\texit the program.\n\n");
 }
 
 //Error message for input formatting issues
