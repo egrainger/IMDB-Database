@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h> 
 #include "databaseParse.h"
 #include "avltree.h"
 #include "structs.h"
+#include "lower.h" 
 
 /*This function's purpose is to help remove articles from my titles for ease of comparison*/
 void removeSubstr (char *string, char *sub) { //string is my title and sub is the article which I want to remove
@@ -34,7 +36,7 @@ node* parsedatabase (node *tree) {
       switch (i) {
       case 2: //second column
 	  strcpy(newMovie.Title, token);  //Maintain copy of original title for user's records
- 	  strlwr(token);                 //Avoids weird user input with incorrect capitalization
+ 	  lower(token);                 //Avoids weird user input with incorrect capitalization
           removeSubstr(token, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
           removeSubstr(token, "a ");
           removeSubstr(token, "an ");
@@ -88,7 +90,7 @@ node *parseUserFile(node *tree, FILE *file) {
       switch (i) {
       case 0: //column 1
 	strcpy(newMovie.Title, token);  //Maintain copy of original title for user's records
-	strlwr(token);                 //Avoids weird user input with incorrect capitalization
+	lower(token);                 //Avoids weird user input with incorrect capitalization
 	removeSubstr(token, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
 	removeSubstr(token, "a ");
 	removeSubstr(token, "an ");
