@@ -25,9 +25,8 @@ int main (void) {
   //Initialize avl tree for user
   node *HEAD_USER = NULL; 
   
-  //Want an array to hold matches found by the display_matches function
-  struct Movie empty = {0}; 
-  struct Movie match[30] = {empty};
+  //Want an array to hold matches found by the display_matches function 
+  struct Movie match[30];
 
   //Some common types that will be used later
   char typeOwned[8];
@@ -50,9 +49,10 @@ int main (void) {
   strcpy(userFile, strcat(userID, ".txt"));
 
   //Read user's file if it exists and update their avl tree accordingly
-  if((fptr = fopen(userFile, "r")) != NULL)
+  if((fptr = fopen(userFile, "r")) != NULL) {
     HEAD_USER = parseUserFile(HEAD_USER, fptr);
-  fclose(fptr); 
+    fclose(fptr); 
+  }
   
   //Display user function choices.
   printf("This library offers six main functions: add movies, update information, delete movies, read your library, help, and exit.\nTo select one of these options please enter the character associated with your desired function:\n\n\ta\tadd a movie to your library\n\tu\tupdate the information for a movie in your library currently\n\tr\tretrieve a particular movie's info from your library\n\td\tdelete a movie from your library.\n\th\tinitial message will remind you of your options\n\te\texit the program.\n\n\nPlease type in a single character for your choice:\t");
@@ -94,11 +94,6 @@ int main (void) {
       
       //Search the database avl tree
       printf("Searching for: %s\n", search); 
-
-      //Make sure match array is clear
-      for (int i = 0; i <= 30; i++) {
-	match[i] = empty;
-      }
       
       //Find top 30 best matches
       counter = 0; 
@@ -117,7 +112,7 @@ int main (void) {
       printf("Please enter a number 1 - 31 which matches the movie you wish to add to your database.\nPlease note there are only 30 titles available from which you can choose.\nIf none of these titles match your desired movie. Please enter 0, and narrow down your search title. If your input is not a value 1-31 or '0' it will default to escaping\n");
  
       //Read user choice from stdin
-      int pickOne;
+      //int pickOne;
       scanf("%d", &pickOne);
       //printf("Pick: %d\n", pickOne); 
       
@@ -203,11 +198,6 @@ int main (void) {
 	//Search the database avl tree
 	printf("Searching for: %s\n", search); 
 
-
-      //Make sure match array is clear
-      for (int i = 0; i <= 30; i++) {
-        match[i] = empty;
-      }
 
       //Find top 30 best matches
       counter = 0;
@@ -358,11 +348,6 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       removeSubstr(search, "a ");
       removeSubstr(search, "an ");
 
-      //Make sure match array is clear
-      for (int i = 0; i <= 30; i++) {
-        match[i] = empty;
-      }
-
       //Find top 30 best matches
       counter = 0;
       printf("\n");
@@ -416,11 +401,6 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
       removeSubstr(search, "a ");
       removeSubstr(search, "an ");
-
-      //Make sure match array is clear
-      for (int i = 0; i <= 30; i++) {
-        match[i] = empty;
-      }
 
       //Find top 30 best matches
       counter = 0;
