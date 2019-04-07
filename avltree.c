@@ -5,11 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <ctype.h> 
 #include "databaseParse.h"
 #include "structs.h"
 #include "avltree.h" 
-
+#include "lower.h" 
+ 
 /*remove all nodes of an AVL tree*/
 void dispose(node* t) {
   if( t != NULL )

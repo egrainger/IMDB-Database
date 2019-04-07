@@ -1,4 +1,3 @@
-
 /*Project: Movie Database 
   Creator: Emma Grainger
   Overview: Create and maintain a personal user library of movie titles from a compiled database. 
@@ -6,10 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h> 
 #include "databaseParse.h"
 #include "structs.h"
 #include "messages.h"
 #include "avltree.h" 
+#include "lower.h"
 
 int main (void) {
  
@@ -86,7 +87,7 @@ int main (void) {
       scanf("%[^\n]s",search);//Scan in movie title
 
       //Clean up user input
-      strlwr(search);                   //All lowercase
+      lower(search);                   //All lowercase
       removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
       removeSubstr(search, "a ");
       removeSubstr(search, "an "); 
@@ -194,7 +195,7 @@ int main (void) {
 	scanf("%[^\n]s",search);//Scan in movie title
 	
 	//Clean up user input
-	strlwr(search);                   //All lowercase
+	lower(search);                   //All lowercase
 	removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
 	removeSubstr(search, "a ");
 	removeSubstr(search, "an "); 
@@ -352,7 +353,7 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       scanf("%[^\n]s",search);//Scan in movie title
 
       //Clean up user input
-      strlwr(search);                   //All lowercase
+      lower(search);                   //All lowercase
       removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
       removeSubstr(search, "a ");
       removeSubstr(search, "an ");
@@ -411,7 +412,7 @@ ur desired movie. Please enter 0, and narrow down your search title. If your inp
       scanf("%[^\n]s",search);//Scan in movie title
 
       //Clean up user input
-      strlwr(search);                   //All lowercase
+      lower(search);                   //All lowercase
       removeSubstr(search, "the ");    //Avoid missing articles: 'the ', 'an ', and 'a ' which we can assume to have a space following them always due to English standards
       removeSubstr(search, "a ");
       removeSubstr(search, "an ");
